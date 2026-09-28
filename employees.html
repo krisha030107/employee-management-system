@@ -528,7 +528,6 @@ td {
 
     <section class="content">
 
-        <!-- HEADING -->
         <div class="heading-row">
 
             <div>
@@ -593,6 +592,7 @@ td {
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Employee</th>
                             <th>Position</th>
@@ -600,6 +600,7 @@ td {
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
+
                     </thead>
 
                     <tbody id="employeeTableBody"></tbody>
@@ -707,7 +708,9 @@ td {
 
 <script>
 
-/* DEFAULT EMPLOYEES */
+/* =========================================================
+   PERMANENT STARTING EMPLOYEE LIST
+   ========================================================= */
 
 const defaultEmployees = [
 
@@ -762,16 +765,41 @@ const defaultEmployees = [
 ];
 
 
-/*
-IMPORTANT:
-If there is no saved employee data,
-the default employees will automatically be loaded.
-*/
+/* =========================================================
+   ONE-TIME DATA UPDATE
+   This removes the OLD Rahul/Priya/etc. data.
+   ========================================================= */
 
-let employees;
+const employeeDataVersion = "krisha-employee-list-v1";
+
+const savedVersion =
+    localStorage.getItem("employeeDataVersion");
+
+
+if (savedVersion !== employeeDataVersion) {
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(defaultEmployees)
+    );
+
+    localStorage.setItem(
+        "employeeDataVersion",
+        employeeDataVersion
+    );
+
+}
+
+
+/* =========================================================
+   LOAD EMPLOYEES
+   ========================================================= */
+
+let employees = [];
 
 const savedEmployees =
     localStorage.getItem("employeeHubEmployees");
+
 
 if (savedEmployees) {
 
@@ -780,7 +808,9 @@ if (savedEmployees) {
         employees = JSON.parse(savedEmployees);
 
         if (!Array.isArray(employees)) {
+
             employees = defaultEmployees;
+
         }
 
     } catch (error) {
@@ -801,7 +831,9 @@ if (savedEmployees) {
 }
 
 
-/* DISPLAY EMPLOYEES */
+/* =========================================================
+   DISPLAY EMPLOYEES
+   ========================================================= */
 
 function displayEmployees() {
 
@@ -818,20 +850,33 @@ function displayEmployees() {
         document.getElementById("departmentFilter").value;
 
 
-    const filteredEmployees = employees.filter(function(employee) {
+    const filteredEmployees =
+        employees.filter(function(employee) {
 
-        const matchesSearch =
-            employee.name.toLowerCase().includes(search) ||
-            employee.email.toLowerCase().includes(search) ||
-            employee.position.toLowerCase().includes(search);
+            const name =
+                String(employee.name || "").toLowerCase();
 
-        const matchesDepartment =
-            department === "all" ||
-            employee.department === department;
+            const email =
+                String(employee.email || "").toLowerCase();
 
-        return matchesSearch && matchesDepartment;
+            const position =
+                String(employee.position || "").toLowerCase();
 
-    });
+
+            const matchesSearch =
+                name.includes(search) ||
+                email.includes(search) ||
+                position.includes(search);
+
+
+            const matchesDepartment =
+                department === "all" ||
+                employee.department === department;
+
+
+            return matchesSearch && matchesDepartment;
+
+        });
 
 
     tableBody.innerHTML = "";
@@ -860,11 +905,15 @@ function displayEmployees() {
         const originalIndex =
             employees.indexOf(employee);
 
-        const row = document.createElement("tr");
+
+        const row =
+            document.createElement("tr");
+
 
         row.innerHTML = `
 
             <td>
+
                 <div class="employee-name">
                     ${escapeHTML(employee.name)}
                 </div>
@@ -872,6 +921,7 @@ function displayEmployees() {
                 <div class="employee-email">
                     ${escapeHTML(employee.email)}
                 </div>
+
             </td>
 
             <td>
@@ -879,27 +929,34 @@ function displayEmployees() {
             </td>
 
             <td>
+
                 <span class="department">
                     ${escapeHTML(employee.department)}
                 </span>
+
             </td>
 
             <td>
+
                 <span class="status active">
                     Active
                 </span>
+
             </td>
 
             <td>
+
                 <button
                     class="delete-btn"
                     onclick="deleteEmployee(${originalIndex})"
                 >
                     Delete
                 </button>
+
             </td>
 
         `;
+
 
         tableBody.appendChild(row);
 
@@ -911,7 +968,9 @@ function displayEmployees() {
 }
 
 
-/* SUMMARY */
+/* =========================================================
+   SUMMARY
+   ========================================================= */
 
 function updateSummary() {
 
@@ -921,10 +980,15 @@ function updateSummary() {
 
     const departments =
         new Set(
+
             employees.map(function(employee) {
+
                 return employee.department;
+
             })
+
         );
+
 
     document.getElementById("totalDepartments").textContent =
         departments.size;
@@ -932,8 +996,11 @@ function updateSummary() {
 
     const active =
         employees.filter(function(employee) {
+
             return employee.status !== "Inactive";
+
         }).length;
+
 
     document.getElementById("activeEmployees").textContent =
         active;
@@ -941,20 +1008,29 @@ function updateSummary() {
 }
 
 
-/* DEPARTMENT FILTER */
+/* =========================================================
+   DEPARTMENT FILTER
+   ========================================================= */
 
 function updateDepartmentFilter() {
 
     const filter =
         document.getElementById("departmentFilter");
 
-    const currentValue = filter.value;
+
+    const currentValue =
+        filter.value;
+
 
     const departments =
         [...new Set(
+
             employees.map(function(employee) {
+
                 return employee.department;
+
             })
+
         )].sort();
 
 
@@ -967,8 +1043,14 @@ function updateDepartmentFilter() {
         const option =
             document.createElement("option");
 
-        option.value = department;
-        option.textContent = department;
+
+        option.value =
+            department;
+
+
+        option.textContent =
+            department;
+
 
         filter.appendChild(option);
 
@@ -977,18 +1059,22 @@ function updateDepartmentFilter() {
 
     if (departments.includes(currentValue)) {
 
-        filter.value = currentValue;
+        filter.value =
+            currentValue;
 
     } else {
 
-        filter.value = "all";
+        filter.value =
+            "all";
 
     }
 
 }
 
 
-/* ADD EMPLOYEE */
+/* =========================================================
+   ADD EMPLOYEE
+   ========================================================= */
 
 function addEmployee() {
 
@@ -997,15 +1083,18 @@ function addEmployee() {
         .value
         .trim();
 
+
     const email =
         document.getElementById("employeeEmail")
         .value
         .trim();
 
+
     const position =
         document.getElementById("employeePosition")
         .value
         .trim();
+
 
     const department =
         document.getElementById("employeeDepartment")
@@ -1051,6 +1140,7 @@ function addEmployee() {
 
     closeModal();
 
+
     updateDepartmentFilter();
 
     displayEmployees();
@@ -1058,117 +1148,10 @@ function addEmployee() {
 }
 
 
-/* DELETE EMPLOYEE */
+/* =========================================================
+   DELETE EMPLOYEE
+   ========================================================= */
 
 function deleteEmployee(index) {
 
-    const employee =
-        employees[index];
-
-    if (!employee) {
-        return;
-    }
-
-
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete " +
-            employee.name +
-            "?"
-        );
-
-
-    if (!confirmDelete) {
-        return;
-    }
-
-
-    employees.splice(index, 1);
-
-
-    saveEmployees();
-
-    updateDepartmentFilter();
-
-    displayEmployees();
-
-}
-
-
-/* SAVE */
-
-function saveEmployees() {
-
-    localStorage.setItem(
-        "employeeHubEmployees",
-        JSON.stringify(employees)
-    );
-
-}
-
-
-/* MODAL */
-
-function openModal() {
-
-    document.getElementById("employeeModal")
-        .style.display = "flex";
-
-}
-
-
-function closeModal() {
-
-    document.getElementById("employeeModal")
-        .style.display = "none";
-
-}
-
-
-/* CLOSE MODAL WHEN CLICKING OUTSIDE */
-
-window.addEventListener("click", function(event) {
-
-    const modal =
-        document.getElementById("employeeModal");
-
-    if (event.target === modal) {
-
-        closeModal();
-
-    }
-
-});
-
-
-/* SECURITY:
-   Prevent HTML entered by users from being rendered as HTML.
-*/
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* INITIAL LOAD */
-
-updateDepartmentFilter();
-
-displayEmployees();
-
-</script>
-
-</body>
-</html>
+    const emp
