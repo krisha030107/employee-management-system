@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Employees - EmployeeHub</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #111827;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 18px;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav a {
+    color: #d1d5db;
+    text-decoration: none;
+    padding: 13px 15px;
+    border-radius: 10px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.logout {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    padding: 35px;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+.header p {
+    color: #6b7280;
+}
+
+/* TOOLBAR */
+
+.toolbar {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 18px;
+
+    display: flex;
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.search {
+    flex: 1;
+}
+
+.search input,
+.filter select {
+    width: 100%;
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+
+    outline: none;
+    background: white;
+}
+
+.filter {
+    width: 200px;
+}
+
+.add-btn {
+    border: none;
+    background: #4f46e5;
+    color: white;
+
+    padding: 12px 18px;
+    border-radius: 9px;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-btn:hover {
+    background: #4338ca;
+}
+
+/* EMPLOYEE GRID */
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.employee-card {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    padding: 22px;
+
+    transition: 0.3s;
+}
+
+.employee-card:hover {
+    transform: translateY(-3px);
+}
+
+.employee-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.avatar {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.employee-name h3 {
+    margin-bottom: 5px;
+}
+
+.employee-name p {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.employee-details {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 15px;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.detail span:first-child {
+    color: #6b7280;
+}
+
+.department-tag {
+    background: #4f46e5;
+    color: white;
+
+    padding: 4px 9px;
+    border-radius: 15px;
+
+    font-size: 11px;
+}
+
+.delete-btn {
+    margin-top: 12px;
+    width: 100%;
+
+    padding: 9px;
+
+    border: 1px solid #ef4444;
+    color: #ef4444;
+
+    background: transparent;
+
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.55);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+
+    background: white;
+
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.save-btn,
+.cancel-btn {
+    flex: 1;
+
+    padding: 11px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    border: none;
+    background: #4f46e5;
+    color: white;
+}
+
+.cancel-btn {
+    border: 1px solid #d1d5db;
+    background: white;
+}
+
+.no-result {
+    display: none;
+
+    text-align: center;
+    color: #6b7280;
+
+    padding: 40px;
+
+    grid-column: 1 / -1;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px) {
+
+    .employee-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:800px) {
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+
+        position: relative;
+
+        padding: 15px;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .nav a {
+        padding: 9px 12px;
+        font-size: 13px;
+    }
+
+    .logout {
+        position: static;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .filter {
+        width: 100%;
+    }
+}
+
+@media(max-width:550px) {
+
+    .employee-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main {
+        padding: 15px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            👥
+        </div>
+
+        EmployeeHub
+
+    </div>
+
+
+    <div class="nav">
+
+        <a href="dashboard.html">
+            🏠 Dashboard
+        </a>
+
+        <a href="employees.html" class="active">
+            👨‍💼 Employees
+        </a>
+
+        <a href="attendance.html">
+            📅 Attendance
+        </a>
+
+        <a href="departments.html">
+            🏢 Departments
+        </a>
+
+        <a href="reports.html">
+            📊 Reports
+        </a>
+
+        <a href="settings.html">
+            ⚙️ Settings
+        </a>
+
+        <a href="index.html" class="logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>Employees</h1>
+
+        <p>
+            Manage all employees in your organization.
+        </p>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search employees..."
+            >
+
+        </div>
+
+
+        <div class="filter">
+
+            <select id="departmentFilter">
+
+                <option value="all">
+                    All Departments
+                </option>
+
+                <option value="IT">
+                    IT
+                </option>
+
+                <option value="HR">
+                    HR
+                </option>
+
+                <option value="Finance">
+                    Finance
+                </option>
+
+                <option value="Design">
+                    Design
+                </option>
+
+                <option value="Marketing">
+                    Marketing
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="add-btn"
+            id="addEmployeeBtn"
+        >
+            + Add Employee
+        </button>
+
+    </div>
+
+
+    <!-- EMPLOYEES -->
+
+    <div
+        class="employee-grid"
+        id="employeeGrid"
+    ></div>
+
+</div>
+
+
+<!-- ADD EMPLOYEE MODAL -->
+
+<div
+    class="modal"
+    id="employeeModal"
+>
+
+    <div class="modal-box">
+
+        <h2>Add New Employee</h2>
+
+
+        <form id="employeeForm">
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="employeeName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Job Position
+                </label>
+
+                <input
+                    type="text"
+                    id="employeePosition"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Department
+                </label>
+
+                <select
+                    id="employeeDepartment"
+                    required
+                >
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                    <option value="IT">
+                        IT
+                    </option>
+
+                    <option value="HR">
+                        HR
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Design">
+                        Design
+                    </option>
+
+                    <option value="Marketing">
+                        Marketing
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="employeeEmail"
+                    required
+                >
+
+            </div>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelBtn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Add Employee
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   DEFAULT EMPLOYEES
+================================ */
+
+const defaultEmployees = [
+
+    {
+        name: "Rahul Sharma",
+        position: "Software Developer",
+        department: "IT",
+        email: "rahul@email.com"
+    },
+
+    {
+        name: "Priya Patel",
+        position: "HR Manager",
+        department: "HR",
+        email: "priya@email.com"
+    },
+
+    {
+        name: "Amit Shah",
+        position: "Accountant",
+        department: "Finance",
+        email: "amit@email.com"
+    },
+
+    {
+        name: "Neha Patel",
+        position: "UI Designer",
+        department: "Design",
+        email: "neha@email.com"
+    },
+
+    {
+        name: "Riya Mehta",
+        position: "Web Developer",
+        department: "IT",
+        email: "riya@email.com"
+    },
+
+    {
+        name: "Karan Mehta",
+        position: "Marketing Executive",
+        department: "Marketing",
+        email: "karan@email.com"
+    }
+
+];
+
+
+/* ================================
+   LOAD SAVED EMPLOYEES
+================================ */
+
+let employees =
+    JSON.parse(
+        localStorage.getItem("employeeHubEmployees")
+    );
+
+
+if (!employees) {
+
+    employees = defaultEmployees;
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+}
+
+
+/* ================================
+   ELEMENTS
+================================ */
+
+const employeeGrid =
+    document.getElementById(
+        "employeeGrid"
+    );
+
+const modal =
+    document.getElementById(
+        "employeeModal"
+    );
+
+const addEmployeeBtn =
+    document.getElementById(
+        "addEmployeeBtn"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
+    );
+
+const employeeForm =
+    document.getElementById(
+        "employeeForm"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const departmentFilter =
+    document.getElementById(
+        "departmentFilter"
+    );
+
+
+/* ================================
+   DISPLAY EMPLOYEES
+================================ */
+
+function displayEmployees() {
+
+    employeeGrid.innerHTML = "";
+
+    const search =
+        searchInput.value
+        .toLowerCase()
+        .trim();
+
+    const department =
+        departmentFilter.value;
+
+    let visibleEmployees = 0;
+
+
+    employees.forEach(
+        function(employee, index) {
+
+            const matchesSearch =
+                employee.name
+                .toLowerCase()
+                .includes(search);
+
+            const matchesDepartment =
+                department === "all" ||
+                employee.department === department;
+
+
+            if (
+                matchesSearch &&
+                matchesDepartment
+            ) {
+
+                visibleEmployees++;
+
+
+                const initials =
+                    employee.name
+                    .split(" ")
+                    .map(
+                        word => word[0]
+                    )
+                    .join("")
+                    .substring(0,2)
+                    .toUpperCase();
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "employee-card";
+
+
+                card.innerHTML = `
+
+                    <div class="employee-top">
+
+                        <div class="avatar">
+                            ${initials}
+                        </div>
+
+                        <div class="employee-name">
+
+                            <h3>
+                                ${employee.name}
+                            </h3>
+
+                            <p>
+                                ${employee.position}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="employee-details">
+
+                        <div class="detail">
+
+                            <span>
+                                Department
+                            </span>
+
+                            <span class="department-tag">
+                                ${employee.department}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <span>
+                                Email
+                            </span>
+
+                            <span>
+                                ${employee.email}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <span>
+                                Status
+                            </span>
+
+                            <span>
+                                Active
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteEmployee(${index})"
+                    >
+                        Delete Employee
+                    </button>
+
+                `;
+
+
+                employeeGrid.appendChild(card);
+
+            }
+
+        }
+    );
+
+
+    if (visibleEmployees === 0) {
+
+        employeeGrid.innerHTML = `
+
+            <div class="no-result"
+                 style="display:block">
+
+                No employees found.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ================================
+   ADD EMPLOYEE
+================================ */
+
+addEmployeeBtn.addEventListener(
+    "click",
+    function() {
+
+        modal.style.display = "flex";
+
+    }
+);
+
+
+/* ================================
+   CLOSE MODAL
+================================ */
+
+cancelBtn.addEventListener(
+    "click",
+    function() {
+
+        modal.style.display = "none";
+
+        employeeForm.reset();
+
+    }
+);
+
+
+/* ================================
+   ADD EMPLOYEE FORM
+================================ */
+
+employeeForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const newEmployee = {
+
+            name:
+                document
+                .getElementById(
+                    "employeeName"
+                )
+                .value,
+
+            position:
+                document
+                .getElementById(
+                    "employeePosition"
+                )
+                .value,
+
+            department:
+                document
+                .getElementById(
+                    "employeeDepartment"
+                )
+                .value,
+
+            email:
+                document
+                .getElementById(
+                    "employeeEmail"
+                )
+                .value
+
+        };
+
+
+        employees.push(newEmployee);
+
+
+        /* SAVE TO BROWSER */
+
+        localStorage.setItem(
+            "employeeHubEmployees",
+            JSON.stringify(employees)
+        );
+
+
+        employeeForm.reset();
+
+        modal.style.display = "none";
+
+
+        displayEmployees();
+
+    }
+);
+
+
+/* ================================
+   DELETE EMPLOYEE
+================================ */
+
+function deleteEmployee(index) {
+
+    const employee =
+        employees[index];
+
+
+    const confirmDelete =
+        confirm(
+            "Delete " +
+            employee.name +
+            " from employees?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    employees.splice(index, 1);
+
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+
+    displayEmployees();
+
+}
+
+
+/* ================================
+   SEARCH
+================================ */
+
+searchInput.addEventListener(
+    "input",
+    displayEmployees
+);
+
+
+/* ================================
+   DEPARTMENT FILTER
+================================ */
+
+departmentFilter.addEventListener(
+    "change",
+    displayEmployees
+);
+
+
+/* ================================
+   CLOSE MODAL OUTSIDE
+================================ */
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === modal
+        ) {
+
+            modal.style.display = "none";
+
+        }
+
+    }
+);
+
+
+/* ================================
+   FIRST LOAD
+================================ */
+
+displayEmployees();
+
+</script>
+
+</body>
+
+</html>

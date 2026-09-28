@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Settings - EmployeeHub</title>
+
+<style>
+
+/* =========================
+   DEFAULT THEME
+========================= */
+
+:root {
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --sidebar: #111827;
+    --sidebar-text: #d1d5db;
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --input: #ffffff;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode {
+    --bg: #111827;
+    --card: #1f2937;
+    --text: #f9fafb;
+    --muted: #9ca3af;
+    --border: #374151;
+    --sidebar: #030712;
+    --sidebar-text: #d1d5db;
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --input: #111827;
+}
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: var(--sidebar);
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 18px;
+    color: white;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav a {
+    color: var(--sidebar-text);
+    text-decoration: none;
+    padding: 13px 15px;
+    border-radius: 10px;
+    display: block;
+    transition: 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.logout {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: 250px;
+    padding: 35px;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--muted);
+}
+
+/* =========================
+   SETTINGS CARD
+========================= */
+
+.settings-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+}
+
+.settings-card h2 {
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.description {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--input);
+    color: var(--text);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn {
+    margin-top: 22px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: var(--primary-dark);
+}
+
+.success {
+    color: #16a34a;
+    margin-top: 12px;
+    display: none;
+    font-size: 14px;
+}
+
+/* =========================
+   NOTIFICATION ROW
+========================= */
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-info h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.setting-info p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================
+   TOGGLE
+========================= */
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #9ca3af;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.slider::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: white;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+/* =========================
+   DARK MODE BOX
+========================= */
+
+.appearance-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.appearance-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.theme-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+body.dark-mode .theme-icon {
+    background: #312e81;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .nav a {
+        padding: 9px 12px;
+        font-size: 13px;
+    }
+
+    .logout {
+        position: static;
+        margin-top: 10px;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .main {
+        padding: 15px;
+    }
+
+    .settings-card {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .appearance-box {
+        gap: 15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">👥</div>
+        EmployeeHub
+    </div>
+
+    <div class="nav">
+
+        <a href="dashboard.html">
+            🏠 Dashboard
+        </a>
+
+        <a href="employees.html">
+            👨‍💼 Employees
+        </a>
+
+        <a href="attendance.html">
+            📅 Attendance
+        </a>
+
+        <a href="departments.html">
+            🏢 Departments
+        </a>
+
+        <a href="reports.html">
+            📊 Reports
+        </a>
+
+        <a href="settings.html" class="active">
+            ⚙️ Settings
+        </a>
+
+        <a href="index.html" class="logout">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>Settings</h1>
+
+        <p>
+            Manage your EmployeeHub account and system preferences.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         PROFILE SETTINGS
+    ========================= -->
+
+    <div class="settings-card">
+
+        <h2>Profile Settings</h2>
+
+        <p class="description">
+            Update your personal account information.
+        </p>
+
+        <form id="profileForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        value="Admin User"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        value="admin@employeehub.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Role</label>
+
+                    <select>
+
+                        <option>Administrator</option>
+                        <option>HR Manager</option>
+                        <option>Manager</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="btn" type="submit">
+                Save Changes
+            </button>
+
+            <p id="profileSuccess" class="success">
+                ✓ Profile changes saved successfully!
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         NOTIFICATIONS
+    ========================= -->
+
+    <div class="settings-card">
+
+        <h2>Notifications</h2>
+
+        <p class="description">
+            Choose which notifications you want to receive.
+        </p>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>Attendance Alerts</h3>
+
+                <p>
+                    Receive alerts about employee attendance.
+                </p>
+
+            </div>
+
+            <label class="switch">
+
+                <input type="checkbox" checked>
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>Employee Updates</h3>
+
+                <p>
+                    Get notified when employee information changes.
+                </p>
+
+            </div>
+
+            <label class="switch">
+
+                <input type="checkbox" checked>
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>Monthly Reports</h3>
+
+                <p>
+                    Receive monthly employee reports.
+                </p>
+
+            </div>
+
+            <label class="switch">
+
+                <input type="checkbox">
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         APPEARANCE
+    ========================= -->
+
+    <div class="settings-card">
+
+        <h2>Appearance</h2>
+
+        <p class="description">
+            Customize how EmployeeHub looks on your device.
+        </p>
+
+
+        <div class="appearance-box">
+
+            <div class="appearance-left">
+
+                <div class="theme-icon" id="themeIcon">
+                    🌙
+                </div>
+
+                <div class="setting-info">
+
+                    <h3>Dark Mode</h3>
+
+                    <p id="themeText">
+                        Switch between light and dark appearance.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="darkModeToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SYSTEM SETTINGS
+    ========================= -->
+
+    <div class="settings-card">
+
+        <h2>System Settings</h2>
+
+        <p class="description">
+            Configure your general system preferences.
+        </p>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Default Language</label>
+
+                <select>
+
+                    <option>English</option>
+                    <option>Hindi</option>
+                    <option>Gujarati</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Time Zone</label>
+
+                <select>
+
+                    <option>
+                        India Standard Time (IST)
+                    </option>
+
+                    <option>
+                        UTC
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="btn"
+            id="systemSave"
+            type="button"
+        >
+            Save Settings
+        </button>
+
+        <p id="systemSuccess" class="success">
+            ✓ System settings saved successfully!
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PROFILE SAVE
+========================= */
+
+document
+.getElementById("profileForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const message =
+        document.getElementById("profileSuccess");
+
+    message.style.display = "block";
+
+    setTimeout(function() {
+
+        message.style.display = "none";
+
+    }, 3000);
+
+});
+
+
+/* =========================
+   SYSTEM SETTINGS SAVE
+========================= */
+
+document
+.getElementById("systemSave")
+.addEventListener("click", function() {
+
+    const message =
+        document.getElementById("systemSuccess");
+
+    message.style.display = "block";
+
+    setTimeout(function() {
+
+        message.style.display = "none";
+
+    }, 3000);
+
+});
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+const darkModeToggle =
+    document.getElementById("darkModeToggle");
+
+const themeIcon =
+    document.getElementById("themeIcon");
+
+const themeText =
+    document.getElementById("themeText");
+
+
+function updateTheme() {
+
+    if (darkModeToggle.checked) {
+
+        document.body.classList.add("dark-mode");
+
+        themeIcon.textContent = "☀️";
+
+        themeText.textContent =
+            "Dark mode is currently enabled.";
+
+        localStorage.setItem(
+            "employeeHubTheme",
+            "dark"
+        );
+
+    } else {
+
+        document.body.classList.remove("dark-mode");
+
+        themeIcon.textContent = "🌙";
+
+        themeText.textContent =
+            "Switch between light and dark appearance.";
+
+        localStorage.setItem(
+            "employeeHubTheme",
+            "light"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LOAD SAVED THEME
+========================= */
+
+const savedTheme =
+    localStorage.getItem("employeeHubTheme");
+
+if (savedTheme === "dark") {
+
+    darkModeToggle.checked = true;
+
+    document.body.classList.add("dark-mode");
+
+    themeIcon.textContent = "☀️";
+
+    themeText.textContent =
+        "Dark mode is currently enabled.";
+
+}
+
+
+/* =========================
+   TOGGLE EVENT
+========================= */
+
+darkModeToggle.addEventListener(
+    "change",
+    updateTheme
+);
+
+</script>
+
+</body>
+</html>
