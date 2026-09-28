@@ -1,724 +1,1012 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Attendance - EmployeeHub</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f7fb;
-            color: #1f2937;
-        }
-
-        /* ================= SIDEBAR ================= */
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100vh;
-            background: linear-gradient(180deg, #4f46e5, #3730a3);
-            color: white;
-            padding: 25px 18px;
-        }
-
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 40px;
-            padding-left: 10px;
-        }
-
-        .logo span {
-            color: #c7d2fe;
-        }
-
-        .menu {
-            list-style: none;
-        }
-
-        .menu li {
-            margin: 8px 0;
-        }
-
-        .menu a {
-            display: block;
-            padding: 13px 15px;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: rgba(255,255,255,0.18);
-        }
-
-        .logout {
-            margin-top: 30px;
-        }
-
-        /* ================= MAIN ================= */
-
-        .main {
-            margin-left: 250px;
-            padding: 35px;
-        }
-
-        .top-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .top-header h1 {
-            font-size: 30px;
-            margin-bottom: 7px;
-        }
-
-        .top-header p {
-            color: #6b7280;
-        }
-
-        .date-box {
-            background: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            font-weight: bold;
-        }
-
-        /* ================= STATS ================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
-
-        .stat-card h3 {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 10px;
-        }
-
-        .stat-card h2 {
-            font-size: 28px;
-        }
-
-        .present {
-            color: #16a34a;
-        }
-
-        .absent {
-            color: #dc2626;
-        }
-
-        .late {
-            color: #d97706;
-        }
-
-        .rate {
-            color: #4f46e5;
-        }
-
-        /* ================= ATTENDANCE BOX ================= */
-
-        .attendance-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
-
-        .attendance-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .attendance-header h2 {
-            font-size: 21px;
-        }
-
-        .search {
-            width: 260px;
-            padding: 11px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-        }
-
-        .search:focus {
-            border-color: #4f46e5;
-        }
-
-        /* ================= TABLE ================= */
-
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-
-        th {
-            text-align: left;
-            background: #f8fafc;
-            color: #6b7280;
-            padding: 15px;
-            font-size: 14px;
-        }
-
-        td {
-            padding: 16px 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:hover {
-            background: #fafafa;
-        }
-
-        /* ================= STATUS ================= */
-
-        .status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .status.present {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .status.absent {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .status.late {
-            background: #fef3c7;
-            color: #b45309;
-        }
-
-        /* ================= MOBILE ================= */
-
-        @media (max-width: 1000px) {
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-        @media (max-width: 750px) {
-
-            .sidebar {
-                width: 200px;
-            }
-
-            .main {
-                margin-left: 200px;
-                padding: 20px;
-            }
-
-            .top-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .attendance-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .search {
-                width: 100%;
-            }
-
-        }
-
-        @media (max-width: 550px) {
-
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-            }
-
-            .main {
-                margin-left: 0;
-                padding: 20px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .menu {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-
-            .menu li {
-                margin: 0;
-            }
-
-            .logout {
-                margin-top: 5px;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Attendance | Employee Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #263238;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100vh;
+    background: #17324d;
+    color: white;
+    padding: 22px 14px;
+}
+
+.logo {
+    padding: 0 10px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 18px;
+}
+
+.logo h2 {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.logo p {
+    font-size: 9px;
+    color: #b9c7d3;
+    margin-top: 3px;
+}
+
+.nav a {
+    display: block;
+    color: #d9e2e9;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 10px;
+    margin-bottom: 3px;
+    border-radius: 5px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #2d6086;
+    color: white;
+}
+
+/* MAIN */
+.main {
+    margin-left: 220px;
+    min-height: 100vh;
+}
+
+/* TOP BAR */
+.topbar {
+    height: 58px;
+    background: white;
+    border-bottom: 1px solid #dce2e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.topbar-title {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.admin {
+    font-size: 11px;
+    color: #59636d;
+}
+
+/* CONTENT */
+.content {
+    padding: 28px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.page-header h1 {
+    font-size: 21px;
+}
+
+.page-header p {
+    font-size: 12px;
+    color: #77818a;
+    margin-top: 4px;
+}
+
+.date-box {
+    background: white;
+    border: 1px solid #dce2e7;
+    border-radius: 5px;
+    padding: 9px 13px;
+    font-size: 11px;
+}
+
+/* SUMMARY */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.summary-card {
+    background: white;
+    border: 1px solid #dce2e7;
+    border-radius: 5px;
+    padding: 16px;
+}
+
+.summary-card p {
+    font-size: 10px;
+    color: #77818a;
+    margin-bottom: 7px;
+}
+
+.summary-card h2 {
+    font-size: 21px;
+}
+
+/* TABLE CARD */
+.table-card {
+    background: white;
+    border: 1px solid #dce2e7;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.filters {
+    padding: 12px;
+    border-bottom: 1px solid #dce2e7;
+    display: flex;
+    gap: 8px;
+}
+
+.search-box {
+    flex: 1;
+    height: 36px;
+    border: 1px solid #d5dce1;
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 11px;
+    outline: none;
+}
+
+.search-box:focus {
+    border-color: #17324d;
+}
+
+/* TABLE */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+th {
+    background: #f5f7f9;
+    color: #59636d;
+    font-size: 9px;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #dce2e7;
+}
+
+td {
+    padding: 12px 10px;
+    font-size: 11px;
+    border-bottom: 1px solid #edf0f2;
+}
+
+.employee-name {
+    font-weight: bold;
+}
+
+.employee-email {
+    color: #7a848c;
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.status-select {
+    height: 30px;
+    border: 1px solid #d5dce1;
+    border-radius: 4px;
+    padding: 0 7px;
+    font-size: 10px;
+    background: white;
+    outline: none;
+}
+
+.time-input {
+    width: 105px;
+    height: 30px;
+    border: 1px solid #d5dce1;
+    border-radius: 4px;
+    padding: 0 7px;
+    font-size: 10px;
+    outline: none;
+}
+
+.save-btn {
+    background: #17324d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 16px;
+    font-size: 11px;
+    cursor: pointer;
+    margin: 14px;
+}
+
+.save-btn:hover {
+    background: #244966;
+}
+
+.no-data {
+    text-align: center;
+    padding: 35px;
+    color: #7a848c;
+    font-size: 12px;
+}
+
+.message {
+    display: none;
+    margin: 0 14px 14px;
+    padding: 9px 12px;
+    background: #e8f5ed;
+    border: 1px solid #c9e6d3;
+    color: #287a46;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 14px;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .nav a {
+        margin: 0;
+        padding: 8px 10px;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header {
+        flex-direction: column;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <!-- ================= SIDEBAR ================= -->
+    <div class="logo">
+        <h2>Employee<br>Management</h2>
+        <p>Administration System</p>
+    </div>
 
-    <aside class="sidebar">
+    <nav class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="employees.html">Employees</a>
+        <a href="attendance.html" class="active">Attendance</a>
+        <a href="departments.html">Departments</a>
+        <a href="reports.html">Reports</a>
+        <a href="settings.html">Settings</a>
+    </nav>
 
-        <div class="logo">
-            Employee<span>Hub</span>
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="topbar-title">
+            Attendance
         </div>
 
-        <ul class="menu">
+        <div class="admin">
+            Administrator
+        </div>
 
-            <li>
-                <a href="dashboard.html">
-                    🏠 Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="employees.html">
-                    👥 Employees
-                </a>
-            </li>
-
-            <li>
-                <a href="attendance.html" class="active">
-                    📅 Attendance
-                </a>
-            </li>
-
-            <li>
-                <a href="departments.html">
-                    🏢 Departments
-                </a>
-            </li>
-
-            <li>
-                <a href="reports.html">
-                    📊 Reports
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    ⚙️ Settings
-                </a>
-            </li>
-
-            <li class="logout">
-                <a href="index.html">
-                    🚪 Logout
-                </a>
-            </li>
-
-        </ul>
-
-    </aside>
+    </header>
 
 
-    <!-- ================= MAIN CONTENT ================= -->
-
-    <main class="main">
-
+    <section class="content">
 
         <!-- HEADER -->
-
-        <div class="top-header">
+        <div class="page-header">
 
             <div>
-
-                <h1>Attendance</h1>
-
-                <p>
-                    Track employee attendance and working hours
-                </p>
-
+                <h1>Attendance Management</h1>
+                <p>Record and manage daily employee attendance.</p>
             </div>
 
-            <div class="date-box">
-                📅 September 28, 2026
+            <div class="date-box" id="currentDate">
+                Loading...
             </div>
 
         </div>
 
 
-        <!-- ================= STATS ================= -->
+        <!-- SUMMARY -->
+        <div class="summary">
 
-        <section class="stats">
-
-
-            <div class="stat-card">
-
-                <h3>Present Today</h3>
-
-                <h2 class="present">
-                    105
-                </h2>
-
+            <div class="summary-card">
+                <p>Present</p>
+                <h2 id="presentCount">0</h2>
             </div>
 
-
-            <div class="stat-card">
-
-                <h3>Absent Today</h3>
-
-                <h2 class="absent">
-                    15
-                </h2>
-
+            <div class="summary-card">
+                <p>Absent</p>
+                <h2 id="absentCount">0</h2>
             </div>
 
-
-            <div class="stat-card">
-
-                <h3>Late Today</h3>
-
-                <h2 class="late">
-                    8
-                </h2>
-
+            <div class="summary-card">
+                <p>Late</p>
+                <h2 id="lateCount">0</h2>
             </div>
 
-
-            <div class="stat-card">
-
-                <h3>Attendance Rate</h3>
-
-                <h2 class="rate">
-                    87.5%
-                </h2>
-
+            <div class="summary-card">
+                <p>Attendance Rate</p>
+                <h2 id="attendanceRate">0%</h2>
             </div>
 
-
-        </section>
-
-
-        <!-- ================= ATTENDANCE TABLE ================= -->
-
-        <section class="attendance-box">
+        </div>
 
 
-            <div class="attendance-header">
+        <!-- TABLE -->
+        <div class="table-card">
 
-                <h2>
-                    Today's Attendance
-                </h2>
+            <div class="filters">
 
                 <input
                     type="text"
-                    class="search"
-                    placeholder="Search employee..."
                     id="searchInput"
+                    class="search-box"
+                    placeholder="Search employee..."
+                    oninput="displayAttendance()"
                 >
 
             </div>
 
 
-            <div class="table-container">
+            <div class="table-wrapper">
 
                 <table>
 
                     <thead>
 
                         <tr>
-
-                            <th>
-                                Employee
-                            </th>
-
-                            <th>
-                                Department
-                            </th>
-
-                            <th>
-                                Check In
-                            </th>
-
-                            <th>
-                                Check Out
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
+                            <th>EMPLOYEE</th>
+                            <th>DEPARTMENT</th>
+                            <th>STATUS</th>
+                            <th>CHECK IN</th>
+                            <th>CHECK OUT</th>
                         </tr>
 
                     </thead>
 
-
-                    <tbody id="attendanceTable">
-
-
-                        <tr>
-
-                            <td>
-                                Rahul Sharma
-                            </td>
-
-                            <td>
-                                IT
-                            </td>
-
-                            <td>
-                                09:05 AM
-                            </td>
-
-                            <td>
-                                06:15 PM
-                            </td>
-
-                            <td>
-                                <span class="status present">
-                                    Present
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Priya Patel
-                            </td>
-
-                            <td>
-                                HR
-                            </td>
-
-                            <td>
-                                08:55 AM
-                            </td>
-
-                            <td>
-                                06:00 PM
-                            </td>
-
-                            <td>
-                                <span class="status present">
-                                    Present
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Amit Shah
-                            </td>
-
-                            <td>
-                                Finance
-                            </td>
-
-                            <td>
-                                09:25 AM
-                            </td>
-
-                            <td>
-                                06:10 PM
-                            </td>
-
-                            <td>
-                                <span class="status late">
-                                    Late
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Neha Patel
-                            </td>
-
-                            <td>
-                                Design
-                            </td>
-
-                            <td>
-                                —
-                            </td>
-
-                            <td>
-                                —
-                            </td>
-
-                            <td>
-                                <span class="status absent">
-                                    Absent
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Riya Mehta
-                            </td>
-
-                            <td>
-                                IT
-                            </td>
-
-                            <td>
-                                09:00 AM
-                            </td>
-
-                            <td>
-                                06:05 PM
-                            </td>
-
-                            <td>
-                                <span class="status present">
-                                    Present
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Karan Mehta
-                            </td>
-
-                            <td>
-                                Marketing
-                            </td>
-
-                            <td>
-                                09:35 AM
-                            </td>
-
-                            <td>
-                                06:20 PM
-                            </td>
-
-                            <td>
-                                <span class="status late">
-                                    Late
-                                </span>
-                            </td>
-
-                        </tr>
-
-
-                    </tbody>
+                    <tbody id="attendanceTableBody"></tbody>
 
                 </table>
 
             </div>
 
 
-        </section>
+            <button
+                class="save-btn"
+                onclick="saveAttendance()"
+            >
+                Save Attendance
+            </button>
 
 
-    </main>
+            <div
+                class="message"
+                id="saveMessage"
+            >
+                Attendance saved successfully.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 
-    <!-- ================= SEARCH SCRIPT ================= -->
+<script>
 
-    <script>
+/* =====================================================
+   EMPLOYEES
+===================================================== */
 
-        const searchInput =
-            document.getElementById("searchInput");
+const defaultEmployees = [
 
-        searchInput.addEventListener("keyup", function () {
+    {
+        id: "EMP001",
+        name: "Krisha Vastarpara",
+        position: "Software Developer",
+        department: "IT",
+        email: "krisha@email.com",
+        status: "Active"
+    },
 
-            const searchValue =
-                searchInput.value.toLowerCase();
+    {
+        id: "EMP002",
+        name: "Vidhi Narola",
+        position: "HR Manager",
+        department: "HR",
+        email: "vidhi@email.com",
+        status: "Active"
+    },
 
-            const rows =
-                document.querySelectorAll(
-                    "#attendanceTable tr"
-                );
+    {
+        id: "EMP003",
+        name: "Ami meruliya",
+        position: "Accountant",
+        department: "Finance",
+        email: "ami@email.com",
+        status: "Active"
+    },
 
-            rows.forEach(function (row) {
+    {
+        id: "EMP004",
+        name: "Shaily Savani",
+        position: "UI Designer",
+        department: "Design",
+        email: "shaily@email.com",
+        status: "Active"
+    },
 
-                const employeeName =
-                    row.cells[0].textContent.toLowerCase();
+    {
+        id: "EMP005",
+        name: "Zarna Bhalani",
+        position: "Web Developer",
+        department: "IT",
+        email: "zarna@email.com",
+        status: "Active"
+    },
 
-                if (
-                    employeeName.includes(searchValue)
-                ) {
+    {
+        id: "EMP006",
+        name: "Naincy Radadiya",
+        position: "Marketing Executive",
+        department: "Marketing",
+        email: "naincy@email.com",
+        status: "Active"
+    }
 
-                    row.style.display = "";
+];
 
-                } else {
 
-                    row.style.display = "none";
+/* =====================================================
+   GET EMPLOYEES FROM EMPLOYEE PAGE
+===================================================== */
 
-                }
+let employees = [];
 
-            });
+const savedEmployees =
+    localStorage.getItem("employeeHubEmployees");
+
+if (savedEmployees) {
+
+    try {
+
+        employees = JSON.parse(savedEmployees);
+
+        if (!Array.isArray(employees) || employees.length === 0) {
+            employees = defaultEmployees;
+        }
+
+    } catch (error) {
+
+        employees = defaultEmployees;
+
+    }
+
+} else {
+
+    employees = defaultEmployees;
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+const today =
+    new Date();
+
+const todayKey =
+    today.getFullYear() +
+    "-" +
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0");
+
+
+document.getElementById("currentDate").textContent =
+    today.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+
+/* =====================================================
+   ATTENDANCE STORAGE
+===================================================== */
+
+const attendanceStorageKey =
+    "employeeAttendance_" + todayKey;
+
+
+let attendance = {};
+
+
+const savedAttendance =
+    localStorage.getItem(attendanceStorageKey);
+
+
+if (savedAttendance) {
+
+    try {
+
+        attendance = JSON.parse(savedAttendance);
+
+    } catch (error) {
+
+        attendance = {};
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE DEFAULT ATTENDANCE
+===================================================== */
+
+employees.forEach(function(employee) {
+
+    if (!attendance[employee.id]) {
+
+        attendance[employee.id] = {
+
+            status: "Present",
+
+            checkIn: "09:00",
+
+            checkOut: "18:00"
+
+        };
+
+    }
+
+});
+
+
+/* =====================================================
+   DISPLAY ATTENDANCE
+===================================================== */
+
+function displayAttendance() {
+
+    const tableBody =
+        document.getElementById(
+            "attendanceTableBody"
+        );
+
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filteredEmployees =
+        employees.filter(function(employee) {
+
+            return (
+                employee.name
+                    .toLowerCase()
+                    .includes(search)
+                ||
+                employee.department
+                    .toLowerCase()
+                    .includes(search)
+            );
 
         });
 
-    </script>
 
+    tableBody.innerHTML = "";
+
+
+    if (filteredEmployees.length === 0) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" class="no-data">
+                    No employees found.
+                </td>
+            </tr>
+        `;
+
+        updateStatistics();
+
+        return;
+
+    }
+
+
+    filteredEmployees.forEach(function(employee) {
+
+        if (!attendance[employee.id]) {
+
+            attendance[employee.id] = {
+
+                status: "Present",
+                checkIn: "09:00",
+                checkOut: "18:00"
+
+            };
+
+        }
+
+
+        const record =
+            attendance[employee.id];
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+
+                <div class="employee-name">
+                    ${escapeHTML(employee.name)}
+                </div>
+
+                <div class="employee-email">
+                    ${escapeHTML(employee.email)}
+                </div>
+
+            </td>
+
+
+            <td>
+                ${escapeHTML(employee.department)}
+            </td>
+
+
+            <td>
+
+                <select
+                    class="status-select"
+                    data-id="${employee.id}"
+                    onchange="changeStatus('${employee.id}', this.value)"
+                >
+
+                    <option
+                        value="Present"
+                        ${record.status === "Present" ? "selected" : ""}
+                    >
+                        Present
+                    </option>
+
+                    <option
+                        value="Absent"
+                        ${record.status === "Absent" ? "selected" : ""}
+                    >
+                        Absent
+                    </option>
+
+                    <option
+                        value="Late"
+                        ${record.status === "Late" ? "selected" : ""}
+                    >
+                        Late
+                    </option>
+
+                </select>
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="time"
+                    class="time-input"
+                    id="checkin-${employee.id}"
+                    value="${record.checkIn}"
+                    ${record.status === "Absent" ? "disabled" : ""}
+                    onchange="updateTime('${employee.id}', 'checkIn', this.value)"
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="time"
+                    class="time-input"
+                    id="checkout-${employee.id}"
+                    value="${record.checkOut}"
+                    ${record.status === "Absent" ? "disabled" : ""}
+                    onchange="updateTime('${employee.id}', 'checkOut', this.value)"
+                >
+
+            </td>
+
+        `;
+
+
+        tableBody.appendChild(row);
+
+    });
+
+
+    updateStatistics();
+
+}
+
+
+/* =====================================================
+   CHANGE STATUS
+===================================================== */
+
+function changeStatus(id, status) {
+
+    if (!attendance[id]) {
+
+        attendance[id] = {};
+
+    }
+
+
+    attendance[id].status = status;
+
+
+    if (status === "Present") {
+
+        attendance[id].checkIn = "09:00";
+        attendance[id].checkOut = "18:00";
+
+    }
+
+
+    if (status === "Late") {
+
+        attendance[id].checkIn = "09:30";
+        attendance[id].checkOut = "18:00";
+
+    }
+
+
+    if (status === "Absent") {
+
+        attendance[id].checkIn = "";
+        attendance[id].checkOut = "";
+
+    }
+
+
+    displayAttendance();
+
+}
+
+
+/* =====================================================
+   UPDATE TIME
+===================================================== */
+
+function updateTime(id, type, value) {
+
+    if (!attendance[id]) {
+
+        attendance[id] = {
+
+            status: "Present",
+            checkIn: "09:00",
+            checkOut: "18:00"
+
+        };
+
+    }
+
+
+    attendance[id][type] = value;
+
+
+    updateStatistics();
+
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+function updateStatistics() {
+
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+
+
+    employees.forEach(function(employee) {
+
+        const record =
+            attendance[employee.id];
+
+
+        if (!record) {
+            return;
+        }
+
+
+        if (record.status === "Present") {
+            present++;
+        }
+
+        else if (record.status === "Absent") {
+            absent++;
+        }
+
+        else if (record.status === "Late") {
+            late++;
+        }
+
+    });
+
+
+    const total =
+        employees.length;
+
+
+    const rate =
+        total > 0
+            ? Math.round(
+                ((present + late) / total) * 100
+              )
+            : 0;
+
+
+    document.getElementById(
+        "presentCount"
+    ).textContent = present;
+
+
+    document.getElementById(
+        "absentCount"
+    ).textContent = absent;
+
+
+    document.getElementById(
+        "lateCount"
+    ).textContent = late;
+
+
+    document.getElementById(
+        "attendanceRate"
+    ).textContent = rate + "%";
+
+}
+
+
+/* =====================================================
+   SAVE ATTENDANCE
+===================================================== */
+
+function saveAttendance() {
+
+    localStorage.setItem(
+        attendanceStorageKey,
+        JSON.stringify(attendance)
+    );
+
+
+    const message =
+        document.getElementById(
+            "saveMessage"
+        );
+
+
+    message.style.display = "block";
+
+
+    setTimeout(function() {
+
+        message.style.display = "none";
+
+    }, 2500);
+
+}
+
+
+/* =====================================================
+   HTML SECURITY
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+displayAttendance();
+
+</script>
 
 </body>
-
 </html>
