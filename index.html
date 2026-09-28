@@ -1,135 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Employee Management System | Login</title>
+    <title>Employee Management System - Sign In</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #263238;
+            min-height: 100vh;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+
+        .header {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #dde3e8;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            background: #17324d;
+            color: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .brand-name {
+            color: #17324d;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        /* MAIN */
+
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border: 1px solid #dce2e7;
+            border-radius: 7px;
+            padding: 38px;
+            box-shadow: 0 4px 15px rgba(20, 40, 55, 0.06);
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-size: 23px;
+            font-weight: 600;
+            color: #1e2d38;
+        }
+
+        .heading p {
+            margin-top: 8px;
+            color: #71808b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #46545e;
+            margin-bottom: 7px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 43px;
+            border: 1px solid #cfd8de;
+            border-radius: 5px;
+            padding: 0 12px;
+            font-size: 13px;
+            color: #263238;
+            background: #ffffff;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #315f83;
+            box-shadow: 0 0 0 2px rgba(49, 95, 131, 0.08);
+        }
+
+        .password-input {
+            padding-right: 65px !important;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #315f83;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* OPTIONS */
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4px 0 22px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #64727c;
+            font-size: 12px;
+        }
+
+        .remember input {
+            width: 14px;
+            height: 14px;
+        }
+
+        .forgot {
+            color: #315f83;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* BUTTON */
+
+        .login-button {
+            width: 100%;
+            height: 43px;
+            background: #17324d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #294d6b;
+        }
+
+        /* MESSAGE */
+
+        .login-message {
+            min-height: 18px;
+            margin-top: 15px;
+            text-align: center;
+            color: #a63c3c;
+            font-size: 12px;
+        }
+
+        /* SECURITY */
+
+        .security-note {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e9ec;
+            color: #7a8790;
+            font-size: 11px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #89949c;
+            font-size: 11px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .main {
+                padding: 30px 15px;
+            }
+
+            .login-card {
+                padding: 28px 22px;
+            }
+
+            .options {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+        }
+    </style>
 </head>
 
-<body class="login-page">
+<body>
 
-    <div class="login-wrapper">
+<div class="page">
 
-        <div class="login-info">
+    <!-- HEADER -->
 
-            <div class="logo">
-                ✦ EmployeeHub
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                EM
             </div>
 
-            <h1>
-                Manage your<br>
-                <span>employees better.</span>
-            </h1>
+            <div class="brand-name">
+                Employee Management System
+            </div>
 
-            <p>
-                A simple and smart employee management
-                system for modern organizations.
-            </p>
+        </div>
 
-            <div class="features">
+    </header>
 
-                <div>
-                    <strong>👥 120+</strong>
-                    <small>Employees</small>
+
+    <!-- LOGIN -->
+
+    <main class="main">
+
+        <div class="login-container">
+
+            <div class="login-card">
+
+                <div class="heading">
+
+                    <h1>Sign in</h1>
+
+                    <p>
+                        Sign in to access the employee management
+                        administration system.
+                    </p>
+
                 </div>
 
-                <div>
-                    <strong>🏢 8</strong>
-                    <small>Departments</small>
-                </div>
 
-                <div>
-                    <strong>📊 95%</strong>
-                    <small>Attendance</small>
+                <form id="loginForm">
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email address"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                class="password-input"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                onclick="togglePassword()"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- OPTIONS -->
+
+                    <div class="options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                            >
+
+                            Remember me
+
+                        </label>
+
+
+                        <a
+                            href="#"
+                            class="forgot"
+                            onclick="forgotPassword(event)"
+                        >
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Sign In
+                    </button>
+
+
+                    <div
+                        id="loginMessage"
+                        class="login-message"
+                    ></div>
+
+                </form>
+
+
+                <div class="security-note">
+
+                    This system is intended for authorized users only.
+                    Please keep your login credentials confidential.
+
                 </div>
 
             </div>
 
         </div>
 
-
-        <div class="login-card">
-
-            <div class="mobile-logo">
-                ✦ EmployeeHub
-            </div>
-
-            <h2>Welcome Back 👋</h2>
-
-            <p class="login-text">
-                Login to access your dashboard
-            </p>
-
-            <form id="loginForm">
-
-                <div class="input-group">
-
-                    <label>Email Address</label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="admin@employeehub.com"
-                        required
-                    >
-
-                </div>
+    </main>
 
 
-                <div class="input-group">
+    <!-- FOOTER -->
 
-                    <label>Password</label>
+    <footer class="footer">
 
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        required
-                    >
+        Employee Management System &nbsp;|&nbsp;
+        Administration Portal
 
-                </div>
+    </footer>
+
+</div>
 
 
-                <div class="login-options">
+<script>
 
-                    <label>
-                        <input type="checkbox">
-                        Remember me
-                    </label>
-
-                    <a href="#">Forgot password?</a>
-
-                </div>
+    const loginForm =
+        document.getElementById("loginForm");
 
 
-                <button type="submit" class="login-btn">
-                    Login to Dashboard →
-                </button>
+    loginForm.addEventListener("submit", function(event) {
 
-                <p id="loginMessage"></p>
-
-            </form>
+        event.preventDefault();
 
 
-            <div class="demo-login">
+        const email =
+            document.getElementById("email").value.trim();
 
-                <strong>Demo Account</strong>
+        const password =
+            document.getElementById("password").value;
 
-                <p>Email: admin@employeehub.com</p>
-                <p>Password: 12345</p>
 
-            </div>
+        if (
+            email === "admin@employeehub.com" &&
+            password === "12345"
+        ) {
 
-        </div>
+            window.location.href =
+                "dashboard.html";
 
-    </div>
+        } else {
 
-    <script src="script.js"></script>
+            document.getElementById("loginMessage")
+                .textContent =
+                "Invalid email address or password.";
+
+        }
+
+    });
+
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.querySelector(".show-password");
+
+
+        if (password.type === "password") {
+
+            password.type = "text";
+            button.textContent = "Hide";
+
+        } else {
+
+            password.type = "password";
+            button.textContent = "Show";
+
+        }
+
+    }
+
+
+    function forgotPassword(event) {
+
+        event.preventDefault();
+
+        alert(
+            "Please contact the system administrator to reset your password."
+        );
+
+    }
+
+</script>
 
 </body>
-
 </html>
