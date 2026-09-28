@@ -1,763 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employees | Employee Management System</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fa;
-            color: #263238;
-        }
-
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* SIDEBAR */
-
-        .sidebar {
-            width: 235px;
-            background: #17324d;
-            color: white;
-            padding: 25px 15px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-        }
-
-        .brand {
-            padding: 0 12px 28px;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .brand h2 {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .brand p {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #b8c5d1;
-        }
-
-        .menu {
-            margin-top: 25px;
-        }
-
-        .menu a {
-            display: block;
-            color: #d7e0e8;
-            text-decoration: none;
-            padding: 12px 14px;
-            margin-bottom: 5px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: #294d6b;
-            color: white;
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 25px;
-            left: 15px;
-            right: 15px;
-        }
-
-        /* MAIN */
-
-        .main {
-            margin-left: 235px;
-            width: calc(100% - 235px);
-        }
-
-        .topbar {
-            height: 70px;
-            background: white;
-            border-bottom: 1px solid #e1e6eb;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-        }
-
-        .topbar h3 {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .admin {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-        }
-
-        .avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #e7edf3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #17324d;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        /* PAGE HEADER */
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .page-header h1 {
-            font-size: 25px;
-            font-weight: 600;
-        }
-
-        .page-header p {
-            margin-top: 7px;
-            color: #687783;
-            font-size: 14px;
-        }
-
-        .add-button {
-            background: #17324d;
-            color: white;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .add-button:hover {
-            background: #294d6b;
-        }
-
-        /* SUMMARY */
-
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 20px;
-        }
-
-        .summary-card {
-            background: white;
-            border: 1px solid #e1e6eb;
-            border-radius: 8px;
-            padding: 18px;
-        }
-
-        .summary-title {
-            color: #71808c;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .summary-value {
-            color: #17324d;
-            font-size: 25px;
-            font-weight: 600;
-        }
-
-        /* EMPLOYEE BOX */
-
-        .employee-box {
-            background: white;
-            border: 1px solid #e1e6eb;
-            border-radius: 8px;
-            padding: 22px;
-        }
-
-        .tools {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .search,
-        .filter {
-            height: 40px;
-            border: 1px solid #d7dfe5;
-            border-radius: 5px;
-            padding: 0 12px;
-            font-size: 13px;
-            outline: none;
-            background: white;
-        }
-
-        .search {
-            flex: 1;
-        }
-
-        .filter {
-            width: 180px;
-        }
-
-        .search:focus,
-        .filter:focus {
-            border-color: #315f83;
-        }
-
-        /* TABLE */
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 750px;
-        }
-
-        th {
-            text-align: left;
-            font-size: 12px;
-            color: #74818b;
-            font-weight: 600;
-            padding: 12px 10px;
-            border-bottom: 1px solid #dfe5e9;
-        }
-
-        td {
-            padding: 14px 10px;
-            font-size: 13px;
-            border-bottom: 1px solid #eef1f3;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .employee-name {
-            font-weight: 600;
-            color: #263238;
-        }
-
-        .employee-email {
-            color: #71808c;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .department-badge {
-            background: #edf2f6;
-            color: #315f83;
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .active-badge {
-            background: #e7f4ec;
-            color: #287447;
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .delete-button {
-            border: 1px solid #e0bcbc;
-            background: white;
-            color: #a63c3c;
-            padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-        }
-
-        .delete-button:hover {
-            background: #fbe9e9;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 35px;
-            color: #7b8790;
-            font-size: 13px;
-        }
-
-        /* MODAL */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(20, 35, 48, 0.45);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 1000;
-        }
-
-        .modal-box {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 8px;
-            padding: 25px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-        }
-
-        .modal-header h2 {
-            font-size: 19px;
-            font-weight: 600;
-        }
-
-        .close {
-            border: none;
-            background: none;
-            font-size: 22px;
-            cursor: pointer;
-            color: #687783;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #46545e;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            height: 40px;
-            border: 1px solid #d7dfe5;
-            border-radius: 5px;
-            padding: 0 11px;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #315f83;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .cancel-button,
-        .save-button {
-            padding: 10px 17px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .cancel-button {
-            background: white;
-            border: 1px solid #d7dfe5;
-            color: #52616b;
-        }
-
-        .save-button {
-            background: #17324d;
-            border: 1px solid #17324d;
-            color: white;
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 900px) {
-            .summary {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 750px) {
-            .sidebar {
-                width: 190px;
-            }
-
-            .main {
-                margin-left: 190px;
-                width: calc(100% - 190px);
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .page-header {
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .tools {
-                flex-direction: column;
-            }
-
-            .filter {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .layout {
-                display: block;
-            }
-
-            .sidebar {
-                position: static;
-                width: 100%;
-                min-height: auto;
-            }
-
-            .main {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .logout {
-                position: static;
-                margin-top: 15px;
-            }
-
-            .summary {
-                grid-template-columns: 1fr;
-            }
-
-            .page-header {
-                flex-direction: column;
-            }
-
-            .add-button {
-                width: 100%;
-            }
-
-            .topbar {
-                padding: 0 18px;
-            }
-
-            .content {
-                padding: 18px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employees | Employee Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fa;
+    color: #263238;
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 230px;
+    height: 100vh;
+    background: #17324d;
+    color: white;
+    padding: 18px 10px;
+}
+
+.brand {
+    padding: 0 10px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 18px;
+}
+
+.brand h2 {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.brand p {
+    font-size: 10px;
+    color: #b9c7d4;
+    margin-top: 5px;
+}
+
+.nav a {
+    display: block;
+    text-decoration: none;
+    color: #d8e1e8;
+    font-size: 13px;
+    padding: 11px 10px;
+    border-radius: 5px;
+    margin-bottom: 4px;
+}
+
+.nav a:hover {
+    background: #244967;
+}
+
+.nav a.active {
+    background: #2c5678;
+    color: white;
+}
+
+.signout {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    color: #d8e1e8;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 10px;
+}
+
+/* MAIN */
+.main {
+    margin-left: 230px;
+    min-height: 100vh;
+}
+
+/* TOPBAR */
+.topbar {
+    height: 64px;
+    background: white;
+    border-bottom: 1px solid #dce2e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+
+.page-name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.admin {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #555;
+}
+
+.admin-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #edf1f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #17324d;
+    font-size: 11px;
+}
+
+/* CONTENT */
+.content {
+    padding: 30px;
+    max-width: 1250px;
+}
+
+.heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.heading-row h1 {
+    font-size: 24px;
+    color: #263238;
+}
+
+.heading-row p {
+    font-size: 12px;
+    color: #78838c;
+    margin-top: 5px;
+}
+
+.btn {
+    border: none;
+    background: #17324d;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn:hover {
+    background: #244967;
+}
+
+/* SUMMARY */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    border: 1px solid #dce2e7;
+    border-radius: 6px;
+    padding: 18px;
+}
+
+.summary-card p {
+    font-size: 11px;
+    color: #7a858e;
+    margin-bottom: 7px;
+}
+
+.summary-card h2 {
+    font-size: 23px;
+    color: #263238;
+}
+
+/* TABLE CARD */
+.table-card {
+    background: white;
+    border: 1px solid #dce2e7;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.toolbar {
+    padding: 15px;
+    border-bottom: 1px solid #e2e6e9;
+    display: flex;
+    gap: 10px;
+}
+
+.search {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #d6dce1;
+    border-radius: 4px;
+    font-size: 12px;
+    outline: none;
+}
+
+.search:focus {
+    border-color: #17324d;
+}
+
+.filter {
+    width: 160px;
+    padding: 10px;
+    border: 1px solid #d6dce1;
+    border-radius: 4px;
+    font-size: 12px;
+    background: white;
+    color: #444;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+thead {
+    background: #f7f8f9;
+}
+
+th {
+    text-align: left;
+    padding: 12px 14px;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #6d777f;
+    border-bottom: 1px solid #dce2e7;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #edf0f2;
+    font-size: 12px;
+}
+
+.employee-name {
+    font-weight: bold;
+    color: #263238;
+}
+
+.employee-email {
+    font-size: 10px;
+    color: #89939a;
+    margin-top: 3px;
+}
+
+.department {
+    display: inline-block;
+    padding: 5px 8px;
+    background: #edf3f7;
+    color: #35566e;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.status.active {
+    background: #e8f5ed;
+    color: #287044;
+}
+
+.delete-btn {
+    border: none;
+    background: transparent;
+    color: #a33a3a;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.delete-btn:hover {
+    text-decoration: underline;
+}
+
+/* EMPTY */
+.empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7d878f;
+    font-size: 13px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: rgba(15, 28, 40, 0.45);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 470px;
+    background: white;
+    border-radius: 7px;
+    padding: 25px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+.modal-box h2 {
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+.modal-box > p {
+    color: #7d878f;
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d6dce1;
+    border-radius: 4px;
+    outline: none;
+    font-size: 12px;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #17324d;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.cancel-btn {
+    background: #eef1f3;
+    color: #34424d;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 165px;
+    }
+
+    .main {
+        margin-left: 165px;
+    }
+
+    .content {
+        padding: 20px 12px;
+    }
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .heading-row {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .heading-row h1 {
+        font-size: 19px;
+    }
+
+    .heading-row p {
+        font-size: 10px;
+    }
+
+    .btn {
+        white-space: nowrap;
+        padding: 9px 10px;
+        font-size: 10px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        padding: 14px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+
+    .filter {
+        width: 100%;
+    }
+
+    .brand h2 {
+        font-size: 14px;
+    }
+
+    .nav a {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .sidebar {
+        width: 145px;
+    }
+
+    .main {
+        margin-left: 145px;
+    }
+
+    .topbar {
+        height: 55px;
+    }
+
+    .page-name {
+        font-size: 11px;
+    }
+
+    .admin {
+        font-size: 9px;
+    }
+
+    .content {
+        padding: 15px 9px;
+    }
+
+    .heading-row {
+        flex-direction: column;
+    }
+
+    .heading-row .btn {
+        width: 100%;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <!-- SIDEBAR -->
+    <div class="brand">
+        <h2>Employee<br>Management</h2>
+        <p>Administration System</p>
+    </div>
 
-    <aside class="sidebar">
+    <nav class="nav">
 
-        <div class="brand">
-            <h2>Employee Management</h2>
-            <p>Administration System</p>
+        <a href="dashboard.html">Dashboard</a>
+
+        <a href="employees.html" class="active">Employees</a>
+
+        <a href="attendance.html">Attendance</a>
+
+        <a href="departments.html">Departments</a>
+
+        <a href="reports.html">Reports</a>
+
+        <a href="settings.html">Settings</a>
+
+    </nav>
+
+    <a href="index.html" class="signout">Sign Out</a>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="page-name">
+            Employees
         </div>
 
-        <nav class="menu">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="employees.html" class="active">Employees</a>
-            <a href="attendance.html">Attendance</a>
-            <a href="departments.html">Departments</a>
-            <a href="reports.html">Reports</a>
-            <a href="settings.html">Settings</a>
-        </nav>
-
-        <div class="logout">
-            <a href="index.html" class="menu">Sign Out</a>
+        <div class="admin">
+            <div class="admin-circle">A</div>
+            Administrator
         </div>
 
-    </aside>
+    </header>
 
 
-    <!-- MAIN -->
+    <section class="content">
 
-    <main class="main">
+        <!-- HEADING -->
+        <div class="heading-row">
 
-        <header class="topbar">
-
-            <h3>Employees</h3>
-
-            <div class="admin">
-                <div class="avatar">A</div>
-                <span>Administrator</span>
+            <div>
+                <h1>Employee Directory</h1>
+                <p>Manage employee information and records.</p>
             </div>
 
-        </header>
-
-
-        <section class="content">
-
-            <!-- PAGE HEADER -->
-
-            <div class="page-header">
-
-                <div>
-                    <h1>Employee Directory</h1>
-                    <p>Manage employee information and records.</p>
-                </div>
-
-                <button class="add-button" onclick="openModal()">
-                    + Add Employee
-                </button>
-
-            </div>
-
-
-            <!-- SUMMARY -->
-
-            <div class="summary">
-
-                <div class="summary-card">
-                    <div class="summary-title">
-                        Total Employees
-                    </div>
-
-                    <div class="summary-value" id="totalEmployees">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="summary-card">
-                    <div class="summary-title">
-                        Departments
-                    </div>
-
-                    <div class="summary-value" id="totalDepartments">
-                        0
-                    </div>
-                </div>
-
-
-                <div class="summary-card">
-                    <div class="summary-title">
-                        Active Employees
-                    </div>
-
-                    <div class="summary-value" id="activeEmployees">
-                        0
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- EMPLOYEE TABLE -->
-
-            <div class="employee-box">
-
-                <div class="tools">
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        class="search"
-                        placeholder="Search by employee name, email or position..."
-                    >
-
-                    <select id="departmentFilter" class="filter">
-                        <option value="all">
-                            All Departments
-                        </option>
-                    </select>
-
-                </div>
-
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Employee</th>
-                                <th>Position</th>
-                                <th>Department</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="employeeTable">
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- ADD EMPLOYEE MODAL -->
-
-<div class="modal" id="employeeModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>Add Employee</h2>
-
-            <button class="close" onclick="closeModal()">
-                ×
+            <button class="btn" onclick="openModal()">
+                + Add Employee
             </button>
 
         </div>
 
 
-        <form id="employeeForm">
+        <!-- SUMMARY -->
+        <div class="summary">
 
-            <div class="form-group">
+            <div class="summary-card">
+                <p>Total Employees</p>
+                <h2 id="totalEmployees">0</h2>
+            </div>
 
-                <label>Full Name</label>
+            <div class="summary-card">
+                <p>Departments</p>
+                <h2 id="totalDepartments">0</h2>
+            </div>
+
+            <div class="summary-card">
+                <p>Active Employees</p>
+                <h2 id="activeEmployees">0</h2>
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="table-card">
+
+            <div class="toolbar">
 
                 <input
                     type="text"
-                    id="employeeName"
-                    placeholder="Enter full name"
-                    required
+                    id="searchInput"
+                    class="search"
+                    placeholder="Search by employee name, email or position..."
+                    oninput="displayEmployees()"
                 >
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Position</label>
-
-                <input
-                    type="text"
-                    id="employeePosition"
-                    placeholder="Enter position"
-                    required
+                <select
+                    id="departmentFilter"
+                    class="filter"
+                    onchange="displayEmployees()"
                 >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Department</label>
-
-                <select id="employeeDepartment" required>
-
-                    <option value="">
-                        Select department
-                    </option>
-
-                    <option value="IT">
-                        IT
-                    </option>
-
-                    <option value="HR">
-                        HR
-                    </option>
-
-                    <option value="Finance">
-                        Finance
-                    </option>
-
-                    <option value="Design">
-                        Design
-                    </option>
-
-                    <option value="Marketing">
-                        Marketing
-                    </option>
-
-                    <option value="Operations">
-                        Operations
-                    </option>
-
+                    <option value="all">All Departments</option>
                 </select>
 
             </div>
 
 
-            <div class="form-group">
+            <div class="table-wrapper">
 
-                <label>Email Address</label>
+                <table>
 
-                <input
-                    type="email"
-                    id="employeeEmail"
-                    placeholder="employee@example.com"
-                    required
-                >
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Position</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            </div>
+                    <tbody id="employeeTableBody"></tbody>
 
-
-            <div class="form-actions">
-
-                <button
-                    type="button"
-                    class="cancel-button"
-                    onclick="closeModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="save-button"
-                >
-                    Save Employee
-                </button>
+                </table>
 
             </div>
 
-        </form>
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ADD EMPLOYEE MODAL -->
+<div class="modal" id="employeeModal">
+
+    <div class="modal-box">
+
+        <h2>Add Employee</h2>
+
+        <p>Enter the employee details below.</p>
+
+
+        <div class="form-group">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="employeeName"
+                placeholder="Enter full name"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                id="employeeEmail"
+                placeholder="Enter email address"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Position</label>
+
+            <input
+                type="text"
+                id="employeePosition"
+                placeholder="Enter job position"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Department</label>
+
+            <select id="employeeDepartment">
+
+                <option value="IT">IT</option>
+                <option value="HR">HR</option>
+                <option value="Finance">Finance</option>
+                <option value="Design">Design</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Operations">Operations</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn"
+                onclick="addEmployee()"
+            >
+                Save Employee
+            </button>
+
+        </div>
 
     </div>
 
@@ -766,161 +707,468 @@
 
 <script>
 
-    const defaultEmployees = [
-        {
-            name: "Rahul Sharma",
-            position: "Software Developer",
-            department: "IT",
-            email: "rahul@email.com"
-        },
-        {
-            name: "Priya Patel",
-            position: "HR Manager",
-            department: "HR",
-            email: "priya@email.com"
-        },
-        {
-            name: "Amit Shah",
-            position: "Accountant",
-            department: "Finance",
-            email: "amit@email.com"
-        },
-        {
-            name: "Neha Patel",
-            position: "UI Designer",
-            department: "Design",
-            email: "neha@email.com"
-        },
-        {
-            name: "Riya Mehta",
-            position: "Web Developer",
-            department: "IT",
-            email: "riya@email.com"
-        },
-        {
-            name: "Karan Mehta",
-            position: "Marketing Executive",
-            department: "Marketing",
-            email: "karan@email.com"
+/* DEFAULT EMPLOYEES */
+
+const defaultEmployees = [
+
+    {
+        name: "Krisha Vastarpara",
+        position: "Software Developer",
+        department: "IT",
+        email: "krisha@email.com",
+        status: "Active"
+    },
+
+    {
+        name: "Vidhi Narola",
+        position: "HR Manager",
+        department: "HR",
+        email: "vidhi@email.com",
+        status: "Active"
+    },
+
+    {
+        name: "Ami meruliya",
+        position: "Accountant",
+        department: "Finance",
+        email: "ami@email.com",
+        status: "Active"
+    },
+
+    {
+        name: "shaily savani",
+        position: "UI Designer",
+        department: "Design",
+        email: "shaily@email.com",
+        status: "Active"
+    },
+
+    {
+        name: "zarna bhalani",
+        position: "Web Developer",
+        department: "IT",
+        email: "zarna@email.com",
+        status: "Active"
+    },
+
+    {
+        name: "naincy radadiya",
+        position: "Marketing Executive",
+        department: "Marketing",
+        email: "naincy@email.com",
+        status: "Active"
+    }
+
+];
+
+
+/*
+IMPORTANT:
+If there is no saved employee data,
+the default employees will automatically be loaded.
+*/
+
+let employees;
+
+const savedEmployees =
+    localStorage.getItem("employeeHubEmployees");
+
+if (savedEmployees) {
+
+    try {
+
+        employees = JSON.parse(savedEmployees);
+
+        if (!Array.isArray(employees)) {
+            employees = defaultEmployees;
         }
-    ];
+
+    } catch (error) {
+
+        employees = defaultEmployees;
+
+    }
+
+} else {
+
+    employees = defaultEmployees;
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+}
 
 
-    let employees =
-        JSON.parse(localStorage.getItem("employeeHubEmployees"))
-        || defaultEmployees;
+/* DISPLAY EMPLOYEES */
+
+function displayEmployees() {
+
+    const tableBody =
+        document.getElementById("employeeTableBody");
+
+    const search =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const department =
+        document.getElementById("departmentFilter").value;
 
 
-    const table =
-        document.getElementById("employeeTable");
+    const filteredEmployees = employees.filter(function(employee) {
 
-    const searchInput =
-        document.getElementById("searchInput");
+        const matchesSearch =
+            employee.name.toLowerCase().includes(search) ||
+            employee.email.toLowerCase().includes(search) ||
+            employee.position.toLowerCase().includes(search);
 
-    const departmentFilter =
+        const matchesDepartment =
+            department === "all" ||
+            employee.department === department;
+
+        return matchesSearch && matchesDepartment;
+
+    });
+
+
+    tableBody.innerHTML = "";
+
+
+    if (filteredEmployees.length === 0) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        No employees found.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        updateSummary();
+
+        return;
+    }
+
+
+    filteredEmployees.forEach(function(employee) {
+
+        const originalIndex =
+            employees.indexOf(employee);
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+                <div class="employee-name">
+                    ${escapeHTML(employee.name)}
+                </div>
+
+                <div class="employee-email">
+                    ${escapeHTML(employee.email)}
+                </div>
+            </td>
+
+            <td>
+                ${escapeHTML(employee.position)}
+            </td>
+
+            <td>
+                <span class="department">
+                    ${escapeHTML(employee.department)}
+                </span>
+            </td>
+
+            <td>
+                <span class="status active">
+                    Active
+                </span>
+            </td>
+
+            <td>
+                <button
+                    class="delete-btn"
+                    onclick="deleteEmployee(${originalIndex})"
+                >
+                    Delete
+                </button>
+            </td>
+
+        `;
+
+        tableBody.appendChild(row);
+
+    });
+
+
+    updateSummary();
+
+}
+
+
+/* SUMMARY */
+
+function updateSummary() {
+
+    document.getElementById("totalEmployees").textContent =
+        employees.length;
+
+
+    const departments =
+        new Set(
+            employees.map(function(employee) {
+                return employee.department;
+            })
+        );
+
+    document.getElementById("totalDepartments").textContent =
+        departments.size;
+
+
+    const active =
+        employees.filter(function(employee) {
+            return employee.status !== "Inactive";
+        }).length;
+
+    document.getElementById("activeEmployees").textContent =
+        active;
+
+}
+
+
+/* DEPARTMENT FILTER */
+
+function updateDepartmentFilter() {
+
+    const filter =
         document.getElementById("departmentFilter");
 
+    const currentValue = filter.value;
 
-    /* SAVE */
+    const departments =
+        [...new Set(
+            employees.map(function(employee) {
+                return employee.department;
+            })
+        )].sort();
 
-    function saveEmployees() {
 
-        localStorage.setItem(
-            "employeeHubEmployees",
-            JSON.stringify(employees)
+    filter.innerHTML =
+        '<option value="all">All Departments</option>';
+
+
+    departments.forEach(function(department) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = department;
+        option.textContent = department;
+
+        filter.appendChild(option);
+
+    });
+
+
+    if (departments.includes(currentValue)) {
+
+        filter.value = currentValue;
+
+    } else {
+
+        filter.value = "all";
+
+    }
+
+}
+
+
+/* ADD EMPLOYEE */
+
+function addEmployee() {
+
+    const name =
+        document.getElementById("employeeName")
+        .value
+        .trim();
+
+    const email =
+        document.getElementById("employeeEmail")
+        .value
+        .trim();
+
+    const position =
+        document.getElementById("employeePosition")
+        .value
+        .trim();
+
+    const department =
+        document.getElementById("employeeDepartment")
+        .value;
+
+
+    if (!name || !email || !position) {
+
+        alert("Please fill in all employee details.");
+
+        return;
+
+    }
+
+
+    const newEmployee = {
+
+        name: name,
+
+        email: email,
+
+        position: position,
+
+        department: department,
+
+        status: "Active"
+
+    };
+
+
+    employees.push(newEmployee);
+
+
+    saveEmployees();
+
+
+    document.getElementById("employeeName").value = "";
+
+    document.getElementById("employeeEmail").value = "";
+
+    document.getElementById("employeePosition").value = "";
+
+
+    closeModal();
+
+    updateDepartmentFilter();
+
+    displayEmployees();
+
+}
+
+
+/* DELETE EMPLOYEE */
+
+function deleteEmployee(index) {
+
+    const employee =
+        employees[index];
+
+    if (!employee) {
+        return;
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete " +
+            employee.name +
+            "?"
         );
 
+
+    if (!confirmDelete) {
+        return;
     }
 
 
-    /* SUMMARY */
-
-    function updateSummary() {
-
-        document.getElementById("totalEmployees").textContent =
-            employees.length;
+    employees.splice(index, 1);
 
 
-        const departments = new Set(
-            employees.map(employee => employee.department)
-        );
+    saveEmployees();
 
-        document.getElementById("totalDepartments").textContent =
-            departments.size;
+    updateDepartmentFilter();
+
+    displayEmployees();
+
+}
 
 
-        document.getElementById("activeEmployees").textContent =
-            employees.length;
+/* SAVE */
+
+function saveEmployees() {
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+}
+
+
+/* MODAL */
+
+function openModal() {
+
+    document.getElementById("employeeModal")
+        .style.display = "flex";
+
+}
+
+
+function closeModal() {
+
+    document.getElementById("employeeModal")
+        .style.display = "none";
+
+}
+
+
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
+
+window.addEventListener("click", function(event) {
+
+    const modal =
+        document.getElementById("employeeModal");
+
+    if (event.target === modal) {
+
+        closeModal();
 
     }
 
-
-    /* DEPARTMENT FILTER */
-
-    function loadDepartments() {
-
-        const departments = [
-            ...new Set(
-                employees.map(employee => employee.department)
-            )
-        ];
+});
 
 
-        departmentFilter.innerHTML =
-            `<option value="all">All Departments</option>`;
+/* SECURITY:
+   Prevent HTML entered by users from being rendered as HTML.
+*/
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
 
 
-        departments.forEach(function(department) {
+/* INITIAL LOAD */
 
-            departmentFilter.innerHTML += `
-                <option value="${department}">
-                    ${department}
-                </option>
-            `;
+updateDepartmentFilter();
 
-        });
+displayEmployees();
 
-    }
+</script>
 
-
-    /* DISPLAY */
-
-    function displayEmployees() {
-
-        const search =
-            searchInput.value.toLowerCase();
-
-        const selectedDepartment =
-            departmentFilter.value;
-
-
-        table.innerHTML = "";
-
-
-        employees.forEach(function(employee, index) {
-
-            const matchesSearch =
-                employee.name.toLowerCase().includes(search) ||
-                employee.email.toLowerCase().includes(search) ||
-                employee.position.toLowerCase().includes(search);
-
-
-            const matchesDepartment =
-                selectedDepartment === "all" ||
-                employee.department === selectedDepartment;
-
-
-            if (!matchesSearch || !matchesDepartment) {
-                return;
-            }
-
-
-            table.innerHTML += `
-
-                <tr>
-
-                    <td>
-
-                        <div class="employee-name">
-                            ${employee.name}
-                        </d
+</body>
+</html>
