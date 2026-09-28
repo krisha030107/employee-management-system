@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Employees | Employee Management System</title>
 
 <style>
@@ -14,7 +15,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7fa;
+    background: #f4f6f8;
     color: #263238;
 }
 
@@ -23,163 +24,136 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    width: 230px;
+    width: 220px;
     height: 100vh;
     background: #17324d;
     color: white;
-    padding: 18px 10px;
+    padding: 22px 14px;
 }
 
-.brand {
-    padding: 0 10px 20px;
+.logo {
+    padding: 0 10px 18px;
     border-bottom: 1px solid rgba(255,255,255,0.12);
     margin-bottom: 18px;
 }
 
-.brand h2 {
+.logo h2 {
     font-size: 16px;
-    line-height: 20px;
+    line-height: 1.3;
 }
 
-.brand p {
-    font-size: 10px;
-    color: #b9c7d4;
-    margin-top: 5px;
+.logo p {
+    font-size: 9px;
+    color: #b9c7d3;
+    margin-top: 3px;
 }
 
 .nav a {
     display: block;
-    text-decoration: none;
-    color: #d8e1e8;
-    font-size: 13px;
-    padding: 11px 10px;
-    border-radius: 5px;
-    margin-bottom: 4px;
-}
-
-.nav a:hover {
-    background: #244967;
-}
-
-.nav a.active {
-    background: #2c5678;
-    color: white;
-}
-
-.signout {
-    position: absolute;
-    bottom: 20px;
-    left: 10px;
-    color: #d8e1e8;
+    color: #d9e2e9;
     text-decoration: none;
     font-size: 12px;
     padding: 10px;
+    margin-bottom: 3px;
+    border-radius: 5px;
+}
+
+.nav a:hover {
+    background: #244966;
+}
+
+.nav a.active {
+    background: #2d6086;
+    color: white;
 }
 
 /* MAIN */
 .main {
-    margin-left: 230px;
+    margin-left: 220px;
     min-height: 100vh;
 }
 
-/* TOPBAR */
+/* TOP BAR */
 .topbar {
-    height: 64px;
+    height: 58px;
     background: white;
     border-bottom: 1px solid #dce2e7;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 25px;
+    padding: 0 24px;
 }
 
-.page-name {
-    font-size: 13px;
+.topbar-title {
+    font-size: 11px;
     font-weight: bold;
 }
 
 .admin {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: #555;
-}
-
-.admin-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #edf1f4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #17324d;
     font-size: 11px;
+    color: #59636d;
 }
 
 /* CONTENT */
 .content {
-    padding: 30px;
-    max-width: 1250px;
+    padding: 28px;
 }
 
-.heading-row {
+.page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
-.heading-row h1 {
-    font-size: 24px;
+.page-header h1 {
+    font-size: 21px;
     color: #263238;
 }
 
-.heading-row p {
+.page-header p {
     font-size: 12px;
-    color: #78838c;
-    margin-top: 5px;
+    color: #77818a;
+    margin-top: 4px;
 }
 
-.btn {
-    border: none;
+.add-btn {
     background: #17324d;
     color: white;
-    padding: 11px 16px;
+    border: none;
     border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 11px;
     cursor: pointer;
-    font-size: 12px;
 }
 
-.btn:hover {
-    background: #244967;
+.add-btn:hover {
+    background: #244966;
 }
 
 /* SUMMARY */
 .summary {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
 .summary-card {
     background: white;
     border: 1px solid #dce2e7;
-    border-radius: 6px;
-    padding: 18px;
+    border-radius: 5px;
+    padding: 16px;
 }
 
 .summary-card p {
-    font-size: 11px;
-    color: #7a858e;
+    font-size: 10px;
+    color: #77818a;
     margin-bottom: 7px;
 }
 
 .summary-card h2 {
-    font-size: 23px;
+    font-size: 21px;
     color: #263238;
 }
 
@@ -187,38 +161,39 @@ body {
 .table-card {
     background: white;
     border: 1px solid #dce2e7;
-    border-radius: 6px;
+    border-radius: 5px;
     overflow: hidden;
 }
 
-.toolbar {
-    padding: 15px;
-    border-bottom: 1px solid #e2e6e9;
+.filters {
+    padding: 12px;
+    border-bottom: 1px solid #dce2e7;
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
-.search {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #d6dce1;
+.search-box,
+.filter-box {
+    height: 36px;
+    border: 1px solid #d5dce1;
     border-radius: 4px;
-    font-size: 12px;
+    padding: 0 10px;
+    font-size: 11px;
     outline: none;
-}
-
-.search:focus {
-    border-color: #17324d;
-}
-
-.filter {
-    width: 160px;
-    padding: 10px;
-    border: 1px solid #d6dce1;
-    border-radius: 4px;
-    font-size: 12px;
     background: white;
-    color: #444;
+}
+
+.search-box {
+    flex: 1;
+}
+
+.filter-box {
+    width: 145px;
+}
+
+.search-box:focus,
+.filter-box:focus {
+    border-color: #17324d;
 }
 
 .table-wrapper {
@@ -228,26 +203,22 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 700px;
-}
-
-thead {
-    background: #f7f8f9;
+    min-width: 650px;
 }
 
 th {
+    background: #f5f7f9;
+    color: #59636d;
+    font-size: 9px;
     text-align: left;
-    padding: 12px 14px;
-    font-size: 10px;
-    text-transform: uppercase;
-    color: #6d777f;
+    padding: 10px;
     border-bottom: 1px solid #dce2e7;
 }
 
 td {
-    padding: 14px;
+    padding: 12px 10px;
+    font-size: 11px;
     border-bottom: 1px solid #edf0f2;
-    font-size: 12px;
 }
 
 .employee-name {
@@ -256,103 +227,87 @@ td {
 }
 
 .employee-email {
+    color: #7a848c;
     font-size: 10px;
-    color: #89939a;
     margin-top: 3px;
-}
-
-.department {
-    display: inline-block;
-    padding: 5px 8px;
-    background: #edf3f7;
-    color: #35566e;
-    border-radius: 4px;
-    font-size: 10px;
 }
 
 .status {
     display: inline-block;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-}
-
-.status.active {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 9px;
     background: #e8f5ed;
-    color: #287044;
+    color: #287a46;
 }
 
 .delete-btn {
-    border: none;
-    background: transparent;
-    color: #a33a3a;
+    background: white;
+    color: #b33a3a;
+    border: 1px solid #e0bcbc;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 9px;
     cursor: pointer;
-    font-size: 11px;
 }
 
 .delete-btn:hover {
-    text-decoration: underline;
+    background: #fff5f5;
 }
 
-/* EMPTY */
-.empty {
+.no-data {
     text-align: center;
-    padding: 40px 20px;
-    color: #7d878f;
-    font-size: 13px;
+    padding: 35px;
+    color: #7a848c;
+    font-size: 12px;
 }
 
 /* MODAL */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
     inset: 0;
-    background: rgba(15, 28, 40, 0.45);
+    background: rgba(20, 35, 48, 0.45);
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    z-index: 1000;
 }
 
 .modal-box {
-    width: 100%;
-    max-width: 470px;
+    width: 430px;
+    max-width: calc(100% - 30px);
     background: white;
-    border-radius: 7px;
-    padding: 25px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .modal-box h2 {
-    font-size: 19px;
-    margin-bottom: 5px;
-}
-
-.modal-box > p {
-    color: #7d878f;
-    font-size: 11px;
-    margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 18px;
 }
 
 .form-group {
-    margin-bottom: 14px;
+    margin-bottom: 13px;
 }
 
 .form-group label {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
-    margin-bottom: 6px;
+    color: #59636d;
+    margin-bottom: 5px;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #d6dce1;
+    height: 36px;
+    border: 1px solid #d5dce1;
     border-radius: 4px;
+    padding: 0 10px;
+    font-size: 11px;
     outline: none;
-    font-size: 12px;
     background: white;
 }
 
@@ -365,113 +320,84 @@ td {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 18px;
 }
 
 .cancel-btn {
-    background: #eef1f3;
-    color: #34424d;
-    border: none;
-    padding: 10px 16px;
+    background: white;
+    border: 1px solid #ccd4da;
+    color: #4f5961;
+    padding: 9px 14px;
     border-radius: 4px;
+    font-size: 11px;
     cursor: pointer;
-    font-size: 12px;
+}
+
+.save-btn {
+    background: #17324d;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
 }
 
 /* MOBILE */
 @media (max-width: 700px) {
 
     .sidebar {
-        width: 165px;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 14px;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .nav a {
+        margin: 0;
+        padding: 8px 10px;
     }
 
     .main {
-        margin-left: 165px;
-    }
-
-    .content {
-        padding: 20px 12px;
+        margin-left: 0;
     }
 
     .topbar {
-        padding: 0 12px;
+        padding: 0 15px;
     }
 
-    .heading-row {
+    .content {
+        padding: 15px;
+    }
+
+    .page-header {
         align-items: flex-start;
         gap: 10px;
     }
 
-    .heading-row h1 {
-        font-size: 19px;
-    }
-
-    .heading-row p {
-        font-size: 10px;
-    }
-
-    .btn {
-        white-space: nowrap;
-        padding: 9px 10px;
-        font-size: 10px;
+    .page-header h1 {
+        font-size: 18px;
     }
 
     .summary {
         grid-template-columns: 1fr;
     }
 
-    .summary-card {
-        padding: 14px;
-    }
-
-    .toolbar {
+    .filters {
         flex-direction: column;
     }
 
-    .filter {
-        width: 100%;
-    }
-
-    .brand h2 {
-        font-size: 14px;
-    }
-
-    .nav a {
-        font-size: 11px;
-    }
-}
-
-@media (max-width: 450px) {
-
-    .sidebar {
-        width: 145px;
-    }
-
-    .main {
-        margin-left: 145px;
-    }
-
-    .topbar {
-        height: 55px;
-    }
-
-    .page-name {
-        font-size: 11px;
-    }
-
-    .admin {
-        font-size: 9px;
-    }
-
-    .content {
-        padding: 15px 9px;
-    }
-
-    .heading-row {
-        flex-direction: column;
-    }
-
-    .heading-row .btn {
+    .filter-box {
         width: 100%;
     }
 }
@@ -483,28 +409,19 @@ td {
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-    <div class="brand">
+    <div class="logo">
         <h2>Employee<br>Management</h2>
         <p>Administration System</p>
     </div>
 
     <nav class="nav">
-
         <a href="dashboard.html">Dashboard</a>
-
         <a href="employees.html" class="active">Employees</a>
-
         <a href="attendance.html">Attendance</a>
-
         <a href="departments.html">Departments</a>
-
         <a href="reports.html">Reports</a>
-
         <a href="settings.html">Settings</a>
-
     </nav>
-
-    <a href="index.html" class="signout">Sign Out</a>
 
 </aside>
 
@@ -513,29 +430,27 @@ td {
 <main class="main">
 
     <header class="topbar">
-
-        <div class="page-name">
+        <div class="topbar-title">
             Employees
         </div>
 
         <div class="admin">
-            <div class="admin-circle">A</div>
             Administrator
         </div>
-
     </header>
 
 
     <section class="content">
 
-        <div class="heading-row">
+        <!-- PAGE HEADER -->
+        <div class="page-header">
 
             <div>
                 <h1>Employee Directory</h1>
                 <p>Manage employee information and records.</p>
             </div>
 
-            <button class="btn" onclick="openModal()">
+            <button class="add-btn" onclick="openModal()">
                 + Add Employee
             </button>
 
@@ -566,22 +481,22 @@ td {
         <!-- TABLE -->
         <div class="table-card">
 
-            <div class="toolbar">
+            <div class="filters">
 
                 <input
                     type="text"
                     id="searchInput"
-                    class="search"
+                    class="search-box"
                     placeholder="Search by employee name, email or position..."
                     oninput="displayEmployees()"
                 >
 
                 <select
                     id="departmentFilter"
-                    class="filter"
+                    class="filter-box"
                     onchange="displayEmployees()"
                 >
-                    <option value="all">All Departments</option>
+                    <option value="">All Departments</option>
                 </select>
 
             </div>
@@ -592,15 +507,13 @@ td {
                 <table>
 
                     <thead>
-
                         <tr>
-                            <th>Employee</th>
-                            <th>Position</th>
-                            <th>Department</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>EMPLOYEE</th>
+                            <th>POSITION</th>
+                            <th>DEPARTMENT</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="employeeTableBody"></tbody>
@@ -623,83 +536,72 @@ td {
 
         <h2>Add Employee</h2>
 
-        <p>Enter the employee details below.</p>
+        <form id="employeeForm">
+
+            <div class="form-group">
+                <label>FULL NAME</label>
+                <input
+                    type="text"
+                    id="employeeName"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>POSITION</label>
+                <input
+                    type="text"
+                    id="employeePosition"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>DEPARTMENT</label>
+
+                <select id="employeeDepartment" required>
+                    <option value="">Select Department</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Design">Design</option>
+                    <option value="Marketing">Marketing</option>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label>EMAIL</label>
+
+                <input
+                    type="email"
+                    id="employeeEmail"
+                    required
+                >
+
+            </div>
 
 
-        <div class="form-group">
+            <div class="modal-buttons">
 
-            <label>Full Name</label>
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
 
-            <input
-                type="text"
-                id="employeeName"
-                placeholder="Enter full name"
-            >
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    Save Employee
+                </button>
 
-        </div>
+            </div>
 
-
-        <div class="form-group">
-
-            <label>Email Address</label>
-
-            <input
-                type="email"
-                id="employeeEmail"
-                placeholder="Enter email address"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Position</label>
-
-            <input
-                type="text"
-                id="employeePosition"
-                placeholder="Enter job position"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Department</label>
-
-            <select id="employeeDepartment">
-
-                <option value="IT">IT</option>
-                <option value="HR">HR</option>
-                <option value="Finance">Finance</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Operations">Operations</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="modal-buttons">
-
-            <button
-                class="cancel-btn"
-                onclick="closeModal()"
-            >
-                Cancel
-            </button>
-
-            <button
-                class="btn"
-                onclick="addEmployee()"
-            >
-                Save Employee
-            </button>
-
-        </div>
+        </form>
 
     </div>
 
@@ -708,13 +610,14 @@ td {
 
 <script>
 
-/* =========================================================
-   PERMANENT STARTING EMPLOYEE LIST
-   ========================================================= */
+/* --------------------------------------------------
+   DEFAULT EMPLOYEE DATA
+-------------------------------------------------- */
 
 const defaultEmployees = [
 
     {
+        id: "EMP001",
         name: "Krisha Vastarpara",
         position: "Software Developer",
         department: "IT",
@@ -723,6 +626,7 @@ const defaultEmployees = [
     },
 
     {
+        id: "EMP002",
         name: "Vidhi Narola",
         position: "HR Manager",
         department: "HR",
@@ -731,6 +635,7 @@ const defaultEmployees = [
     },
 
     {
+        id: "EMP003",
         name: "Ami meruliya",
         position: "Accountant",
         department: "Finance",
@@ -739,7 +644,8 @@ const defaultEmployees = [
     },
 
     {
-        name: "shaily savani",
+        id: "EMP004",
+        name: "Shaily Savani",
         position: "UI Designer",
         department: "Design",
         email: "shaily@email.com",
@@ -747,7 +653,8 @@ const defaultEmployees = [
     },
 
     {
-        name: "zarna bhalani",
+        id: "EMP005",
+        name: "Zarna Bhalani",
         position: "Web Developer",
         department: "IT",
         email: "zarna@email.com",
@@ -755,7 +662,8 @@ const defaultEmployees = [
     },
 
     {
-        name: "naincy radadiya",
+        id: "EMP006",
+        name: "Naincy Radadiya",
         position: "Marketing Executive",
         department: "Marketing",
         email: "naincy@email.com",
@@ -765,61 +673,30 @@ const defaultEmployees = [
 ];
 
 
-/* =========================================================
-   ONE-TIME DATA UPDATE
-   This removes the OLD Rahul/Priya/etc. data.
-   ========================================================= */
+/* --------------------------------------------------
+   LOAD EMPLOYEES
+-------------------------------------------------- */
 
-const employeeDataVersion = "krisha-employee-list-v1";
+const DATA_VERSION = "employees-v3";
+
+let employees;
+
+const savedEmployees =
+    localStorage.getItem("employeeHubEmployees");
 
 const savedVersion =
     localStorage.getItem("employeeDataVersion");
 
 
-if (savedVersion !== employeeDataVersion) {
+/*
+   If old/empty data is found,
+   load the six correct employees.
+*/
 
-    localStorage.setItem(
-        "employeeHubEmployees",
-        JSON.stringify(defaultEmployees)
-    );
-
-    localStorage.setItem(
-        "employeeDataVersion",
-        employeeDataVersion
-    );
-
-}
-
-
-/* =========================================================
-   LOAD EMPLOYEES
-   ========================================================= */
-
-let employees = [];
-
-const savedEmployees =
-    localStorage.getItem("employeeHubEmployees");
-
-
-if (savedEmployees) {
-
-    try {
-
-        employees = JSON.parse(savedEmployees);
-
-        if (!Array.isArray(employees)) {
-
-            employees = defaultEmployees;
-
-        }
-
-    } catch (error) {
-
-        employees = defaultEmployees;
-
-    }
-
-} else {
+if (
+    savedVersion !== DATA_VERSION ||
+    !savedEmployees
+) {
 
     employees = defaultEmployees;
 
@@ -828,12 +705,44 @@ if (savedEmployees) {
         JSON.stringify(employees)
     );
 
+    localStorage.setItem(
+        "employeeDataVersion",
+        DATA_VERSION
+    );
+
+} else {
+
+    try {
+
+        employees = JSON.parse(savedEmployees);
+
+        if (
+            !Array.isArray(employees) ||
+            employees.length === 0
+        ) {
+            employees = defaultEmployees;
+
+            localStorage.setItem(
+                "employeeHubEmployees",
+                JSON.stringify(employees)
+            );
+        }
+
+    } catch (error) {
+
+        employees = defaultEmployees;
+
+        localStorage.setItem(
+            "employeeHubEmployees",
+            JSON.stringify(employees)
+        );
+    }
 }
 
 
-/* =========================================================
+/* --------------------------------------------------
    DISPLAY EMPLOYEES
-   ========================================================= */
+-------------------------------------------------- */
 
 function displayEmployees() {
 
@@ -841,38 +750,29 @@ function displayEmployees() {
         document.getElementById("employeeTableBody");
 
     const search =
-        document.getElementById("searchInput")
+        document
+        .getElementById("searchInput")
         .value
         .toLowerCase()
         .trim();
 
     const department =
-        document.getElementById("departmentFilter").value;
+        document
+        .getElementById("departmentFilter")
+        .value;
 
 
     const filteredEmployees =
         employees.filter(function(employee) {
 
-            const name =
-                String(employee.name || "").toLowerCase();
-
-            const email =
-                String(employee.email || "").toLowerCase();
-
-            const position =
-                String(employee.position || "").toLowerCase();
-
-
             const matchesSearch =
-                name.includes(search) ||
-                email.includes(search) ||
-                position.includes(search);
-
+                employee.name.toLowerCase().includes(search) ||
+                employee.email.toLowerCase().includes(search) ||
+                employee.position.toLowerCase().includes(search);
 
             const matchesDepartment =
-                department === "all" ||
+                department === "" ||
                 employee.department === department;
-
 
             return matchesSearch && matchesDepartment;
 
@@ -886,10 +786,8 @@ function displayEmployees() {
 
         tableBody.innerHTML = `
             <tr>
-                <td colspan="5">
-                    <div class="empty">
-                        No employees found.
-                    </div>
+                <td colspan="5" class="no-data">
+                    No employees found.
                 </td>
             </tr>
         `;
@@ -903,12 +801,12 @@ function displayEmployees() {
     filteredEmployees.forEach(function(employee) {
 
         const originalIndex =
-            employees.indexOf(employee);
+            employees.findIndex(
+                item => item.id === employee.id
+            );
 
 
-        const row =
-            document.createElement("tr");
-
+        const row = document.createElement("tr");
 
         row.innerHTML = `
 
@@ -929,17 +827,13 @@ function displayEmployees() {
             </td>
 
             <td>
-
-                <span class="department">
-                    ${escapeHTML(employee.department)}
-                </span>
-
+                ${escapeHTML(employee.department)}
             </td>
 
             <td>
 
-                <span class="status active">
-                    Active
+                <span class="status">
+                    ${escapeHTML(employee.status || "Active")}
                 </span>
 
             </td>
@@ -954,7 +848,6 @@ function displayEmployees() {
                 </button>
 
             </td>
-
         `;
 
 
@@ -964,13 +857,12 @@ function displayEmployees() {
 
 
     updateSummary();
-
 }
 
 
-/* =========================================================
-   SUMMARY
-   ========================================================= */
+/* --------------------------------------------------
+   UPDATE SUMMARY
+-------------------------------------------------- */
 
 function updateSummary() {
 
@@ -980,62 +872,47 @@ function updateSummary() {
 
     const departments =
         new Set(
-
-            employees.map(function(employee) {
-
-                return employee.department;
-
-            })
-
+            employees.map(
+                employee => employee.department
+            )
         );
-
 
     document.getElementById("totalDepartments").textContent =
         departments.size;
 
 
     const active =
-        employees.filter(function(employee) {
-
-            return employee.status !== "Inactive";
-
-        }).length;
+        employees.filter(
+            employee =>
+                (employee.status || "Active") === "Active"
+        ).length;
 
 
     document.getElementById("activeEmployees").textContent =
         active;
-
 }
 
 
-/* =========================================================
+/* --------------------------------------------------
    DEPARTMENT FILTER
-   ========================================================= */
+-------------------------------------------------- */
 
-function updateDepartmentFilter() {
+function loadDepartments() {
 
-    const filter =
+    const select =
         document.getElementById("departmentFilter");
-
-
-    const currentValue =
-        filter.value;
 
 
     const departments =
         [...new Set(
-
-            employees.map(function(employee) {
-
-                return employee.department;
-
-            })
-
+            employees.map(
+                employee => employee.department
+            )
         )].sort();
 
 
-    filter.innerHTML =
-        '<option value="all">All Departments</option>';
+    select.innerHTML =
+        `<option value="">All Departments</option>`;
 
 
     departments.forEach(function(department) {
@@ -1043,82 +920,96 @@ function updateDepartmentFilter() {
         const option =
             document.createElement("option");
 
+        option.value = department;
+        option.textContent = department;
 
-        option.value =
-            department;
-
-
-        option.textContent =
-            department;
-
-
-        filter.appendChild(option);
+        select.appendChild(option);
 
     });
+}
 
 
-    if (departments.includes(currentValue)) {
+/* --------------------------------------------------
+   OPEN MODAL
+-------------------------------------------------- */
 
-        filter.value =
-            currentValue;
+function openModal() {
 
-    } else {
-
-        filter.value =
-            "all";
-
-    }
+    document.getElementById(
+        "employeeModal"
+    ).style.display = "flex";
 
 }
 
 
-/* =========================================================
-   ADD EMPLOYEE
-   ========================================================= */
+/* --------------------------------------------------
+   CLOSE MODAL
+-------------------------------------------------- */
 
-function addEmployee() {
+function closeModal() {
+
+    document.getElementById(
+        "employeeModal"
+    ).style.display = "none";
+
+    document.getElementById(
+        "employeeForm"
+    ).reset();
+
+}
+
+
+/* --------------------------------------------------
+   ADD EMPLOYEE
+-------------------------------------------------- */
+
+document
+.getElementById("employeeForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
 
     const name =
-        document.getElementById("employeeName")
-        .value
-        .trim();
-
-
-    const email =
-        document.getElementById("employeeEmail")
+        document
+        .getElementById("employeeName")
         .value
         .trim();
 
 
     const position =
-        document.getElementById("employeePosition")
+        document
+        .getElementById("employeePosition")
         .value
         .trim();
 
 
     const department =
-        document.getElementById("employeeDepartment")
+        document
+        .getElementById("employeeDepartment")
         .value;
 
 
-    if (!name || !email || !position) {
-
-        alert("Please fill in all employee details.");
-
-        return;
-
-    }
+    const email =
+        document
+        .getElementById("employeeEmail")
+        .value
+        .trim();
 
 
     const newEmployee = {
 
-        name: name,
+        id:
+            "EMP" +
+            String(Date.now()).slice(-6),
 
-        email: email,
+        name: name,
 
         position: position,
 
         department: department,
+
+        email: email,
 
         status: "Active"
 
@@ -1128,30 +1019,85 @@ function addEmployee() {
     employees.push(newEmployee);
 
 
-    saveEmployees();
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
 
 
-    document.getElementById("employeeName").value = "";
-
-    document.getElementById("employeeEmail").value = "";
-
-    document.getElementById("employeePosition").value = "";
+    localStorage.setItem(
+        "employeeDataVersion",
+        DATA_VERSION
+    );
 
 
     closeModal();
 
+    loadDepartments();
 
-    updateDepartmentFilter();
+    displayEmployees();
+
+});
+
+
+/* --------------------------------------------------
+   DELETE EMPLOYEE
+-------------------------------------------------- */
+
+function deleteEmployee(index) {
+
+    const employee =
+        employees[index];
+
+
+    if (!employee) {
+        return;
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete " +
+            employee.name +
+            "?"
+        );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    employees.splice(index, 1);
+
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+
+    loadDepartments();
 
     displayEmployees();
 
 }
 
 
-/* =========================================================
-   DELETE EMPLOYEE
-   ========================================================= */
+/* --------------------------------------------------
+   HTML SECURITY
+-------------------------------------------------- */
 
-function deleteEmployee(index) {
+function escapeHTML(value) {
 
-    const emp
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* -------
