@@ -58,10 +58,7 @@ body {
     border-radius: 5px;
 }
 
-.nav a:hover {
-    background: #244966;
-}
-
+.nav a:hover,
 .nav a.active {
     background: #2d6086;
     color: white;
@@ -73,7 +70,7 @@ body {
     min-height: 100vh;
 }
 
-/* TOP BAR */
+/* TOPBAR */
 .topbar {
     height: 58px;
     background: white;
@@ -108,7 +105,6 @@ body {
 
 .page-header h1 {
     font-size: 21px;
-    color: #263238;
 }
 
 .page-header p {
@@ -125,10 +121,6 @@ body {
     padding: 10px 15px;
     font-size: 11px;
     cursor: pointer;
-}
-
-.add-btn:hover {
-    background: #244966;
 }
 
 /* SUMMARY */
@@ -154,10 +146,9 @@ body {
 
 .summary-card h2 {
     font-size: 21px;
-    color: #263238;
 }
 
-/* TABLE CARD */
+/* TABLE */
 .table-card {
     background: white;
     border: 1px solid #dce2e7;
@@ -191,11 +182,6 @@ body {
     width: 145px;
 }
 
-.search-box:focus,
-.filter-box:focus {
-    border-color: #17324d;
-}
-
 .table-wrapper {
     overflow-x: auto;
 }
@@ -223,7 +209,6 @@ td {
 
 .employee-name {
     font-weight: bold;
-    color: #263238;
 }
 
 .employee-email {
@@ -251,15 +236,10 @@ td {
     cursor: pointer;
 }
 
-.delete-btn:hover {
-    background: #fff5f5;
-}
-
 .no-data {
     text-align: center;
     padding: 35px;
     color: #7a848c;
-    font-size: 12px;
 }
 
 /* MODAL */
@@ -267,7 +247,7 @@ td {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(20, 35, 48, 0.45);
+    background: rgba(20,35,48,0.45);
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -279,7 +259,6 @@ td {
     background: white;
     border-radius: 6px;
     padding: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .modal-box h2 {
@@ -307,13 +286,6 @@ td {
     border-radius: 4px;
     padding: 0 10px;
     font-size: 11px;
-    outline: none;
-    background: white;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #17324d;
 }
 
 .modal-buttons {
@@ -326,11 +298,8 @@ td {
 .cancel-btn {
     background: white;
     border: 1px solid #ccd4da;
-    color: #4f5961;
     padding: 9px 14px;
     border-radius: 4px;
-    font-size: 11px;
-    cursor: pointer;
 }
 
 .save-btn {
@@ -339,8 +308,6 @@ td {
     border: none;
     padding: 9px 14px;
     border-radius: 4px;
-    font-size: 11px;
-    cursor: pointer;
 }
 
 /* MOBILE */
@@ -372,21 +339,8 @@ td {
         margin-left: 0;
     }
 
-    .topbar {
-        padding: 0 15px;
-    }
-
     .content {
         padding: 15px;
-    }
-
-    .page-header {
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .page-header h1 {
-        font-size: 18px;
     }
 
     .summary {
@@ -399,6 +353,11 @@ td {
 
     .filter-box {
         width: 100%;
+    }
+
+    .page-header {
+        align-items: flex-start;
+        gap: 10px;
     }
 }
 </style>
@@ -442,7 +401,6 @@ td {
 
     <section class="content">
 
-        <!-- PAGE HEADER -->
         <div class="page-header">
 
             <div>
@@ -462,23 +420,23 @@ td {
 
             <div class="summary-card">
                 <p>Total Employees</p>
-                <h2 id="totalEmployees">0</h2>
+                <h2 id="totalEmployees">6</h2>
             </div>
 
             <div class="summary-card">
                 <p>Departments</p>
-                <h2 id="totalDepartments">0</h2>
+                <h2 id="totalDepartments">5</h2>
             </div>
 
             <div class="summary-card">
                 <p>Active Employees</p>
-                <h2 id="activeEmployees">0</h2>
+                <h2 id="activeEmployees">6</h2>
             </div>
 
         </div>
 
 
-        <!-- TABLE -->
+        <!-- EMPLOYEE TABLE -->
         <div class="table-card">
 
             <div class="filters">
@@ -497,6 +455,11 @@ td {
                     onchange="displayEmployees()"
                 >
                     <option value="">All Departments</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Design">Design</option>
+                    <option value="Marketing">Marketing</option>
                 </select>
 
             </div>
@@ -540,20 +503,12 @@ td {
 
             <div class="form-group">
                 <label>FULL NAME</label>
-                <input
-                    type="text"
-                    id="employeeName"
-                    required
-                >
+                <input type="text" id="employeeName" required>
             </div>
 
             <div class="form-group">
                 <label>POSITION</label>
-                <input
-                    type="text"
-                    id="employeePosition"
-                    required
-                >
+                <input type="text" id="employeePosition" required>
             </div>
 
             <div class="form-group">
@@ -572,30 +527,21 @@ td {
 
             <div class="form-group">
                 <label>EMAIL</label>
-
-                <input
-                    type="email"
-                    id="employeeEmail"
-                    required
-                >
-
+                <input type="email" id="employeeEmail" required>
             </div>
-
 
             <div class="modal-buttons">
 
                 <button
                     type="button"
                     class="cancel-btn"
-                    onclick="closeModal()"
-                >
+                    onclick="closeModal()">
                     Cancel
                 </button>
 
                 <button
                     type="submit"
-                    class="save-btn"
-                >
+                    class="save-btn">
                     Save Employee
                 </button>
 
@@ -610,9 +556,9 @@ td {
 
 <script>
 
-/* --------------------------------------------------
-   DEFAULT EMPLOYEE DATA
--------------------------------------------------- */
+/* =====================================================
+   EMPLOYEE DATA
+===================================================== */
 
 const defaultEmployees = [
 
@@ -673,76 +619,21 @@ const defaultEmployees = [
 ];
 
 
-/* --------------------------------------------------
-   LOAD EMPLOYEES
--------------------------------------------------- */
+/* =====================================================
+   FORCE THE CORRECT EMPLOYEE LIST
+===================================================== */
 
-const DATA_VERSION = "employees-v3";
+localStorage.setItem(
+    "employeeHubEmployees",
+    JSON.stringify(defaultEmployees)
+);
 
-let employees;
-
-const savedEmployees =
-    localStorage.getItem("employeeHubEmployees");
-
-const savedVersion =
-    localStorage.getItem("employeeDataVersion");
+let employees = defaultEmployees;
 
 
-/*
-   If old/empty data is found,
-   load the six correct employees.
-*/
-
-if (
-    savedVersion !== DATA_VERSION ||
-    !savedEmployees
-) {
-
-    employees = defaultEmployees;
-
-    localStorage.setItem(
-        "employeeHubEmployees",
-        JSON.stringify(employees)
-    );
-
-    localStorage.setItem(
-        "employeeDataVersion",
-        DATA_VERSION
-    );
-
-} else {
-
-    try {
-
-        employees = JSON.parse(savedEmployees);
-
-        if (
-            !Array.isArray(employees) ||
-            employees.length === 0
-        ) {
-            employees = defaultEmployees;
-
-            localStorage.setItem(
-                "employeeHubEmployees",
-                JSON.stringify(employees)
-            );
-        }
-
-    } catch (error) {
-
-        employees = defaultEmployees;
-
-        localStorage.setItem(
-            "employeeHubEmployees",
-            JSON.stringify(employees)
-        );
-    }
-}
-
-
-/* --------------------------------------------------
+/* =====================================================
    DISPLAY EMPLOYEES
--------------------------------------------------- */
+===================================================== */
 
 function displayEmployees() {
 
@@ -753,8 +644,7 @@ function displayEmployees() {
         document
         .getElementById("searchInput")
         .value
-        .toLowerCase()
-        .trim();
+        .toLowerCase();
 
     const department =
         document
@@ -765,16 +655,16 @@ function displayEmployees() {
     const filteredEmployees =
         employees.filter(function(employee) {
 
-            const matchesSearch =
+            const searchMatch =
                 employee.name.toLowerCase().includes(search) ||
                 employee.email.toLowerCase().includes(search) ||
                 employee.position.toLowerCase().includes(search);
 
-            const matchesDepartment =
+            const departmentMatch =
                 department === "" ||
                 employee.department === department;
 
-            return matchesSearch && matchesDepartment;
+            return searchMatch && departmentMatch;
 
         });
 
@@ -792,21 +682,21 @@ function displayEmployees() {
             </tr>
         `;
 
-        updateSummary();
-
         return;
     }
 
 
     filteredEmployees.forEach(function(employee) {
 
-        const originalIndex =
+        const index =
             employees.findIndex(
                 item => item.id === employee.id
             );
 
 
-        const row = document.createElement("tr");
+        const row =
+            document.createElement("tr");
+
 
         row.innerHTML = `
 
@@ -833,7 +723,7 @@ function displayEmployees() {
             <td>
 
                 <span class="status">
-                    ${escapeHTML(employee.status || "Active")}
+                    ${escapeHTML(employee.status)}
                 </span>
 
             </td>
@@ -842,12 +732,12 @@ function displayEmployees() {
 
                 <button
                     class="delete-btn"
-                    onclick="deleteEmployee(${originalIndex})"
-                >
+                    onclick="deleteEmployee(${index})">
                     Delete
                 </button>
 
             </td>
+
         `;
 
 
@@ -855,19 +745,60 @@ function displayEmployees() {
 
     });
 
-
-    updateSummary();
 }
 
 
-/* --------------------------------------------------
+/* =====================================================
+   DELETE EMPLOYEE
+===================================================== */
+
+function deleteEmployee(index) {
+
+    const employee = employees[index];
+
+    if (!employee) {
+        return;
+    }
+
+
+    const answer =
+        confirm(
+            "Are you sure you want to delete " +
+            employee.name +
+            "?"
+        );
+
+
+    if (!answer) {
+        return;
+    }
+
+
+    employees.splice(index, 1);
+
+
+    localStorage.setItem(
+        "employeeHubEmployees",
+        JSON.stringify(employees)
+    );
+
+
+    updateSummary();
+
+    displayEmployees();
+
+}
+
+
+/* =====================================================
    UPDATE SUMMARY
--------------------------------------------------- */
+===================================================== */
 
 function updateSummary() {
 
-    document.getElementById("totalEmployees").textContent =
-        employees.length;
+    document.getElementById(
+        "totalEmployees"
+    ).textContent = employees.length;
 
 
     const departments =
@@ -877,61 +808,30 @@ function updateSummary() {
             )
         );
 
-    document.getElementById("totalDepartments").textContent =
-        departments.size;
+
+    document.getElementById(
+        "totalDepartments"
+    ).textContent = departments.size;
 
 
-    const active =
+    const activeEmployees =
         employees.filter(
             employee =>
-                (employee.status || "Active") === "Active"
-        ).length;
+                employee.status === "Active"
+        );
 
 
-    document.getElementById("activeEmployees").textContent =
-        active;
+    document.getElementById(
+        "activeEmployees"
+    ).textContent =
+        activeEmployees.length;
+
 }
 
 
-/* --------------------------------------------------
-   DEPARTMENT FILTER
--------------------------------------------------- */
-
-function loadDepartments() {
-
-    const select =
-        document.getElementById("departmentFilter");
-
-
-    const departments =
-        [...new Set(
-            employees.map(
-                employee => employee.department
-            )
-        )].sort();
-
-
-    select.innerHTML =
-        `<option value="">All Departments</option>`;
-
-
-    departments.forEach(function(department) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = department;
-        option.textContent = department;
-
-        select.appendChild(option);
-
-    });
-}
-
-
-/* --------------------------------------------------
+/* =====================================================
    OPEN MODAL
--------------------------------------------------- */
+===================================================== */
 
 function openModal() {
 
@@ -942,15 +842,16 @@ function openModal() {
 }
 
 
-/* --------------------------------------------------
+/* =====================================================
    CLOSE MODAL
--------------------------------------------------- */
+===================================================== */
 
 function closeModal() {
 
     document.getElementById(
         "employeeModal"
     ).style.display = "none";
+
 
     document.getElementById(
         "employeeForm"
@@ -959,9 +860,9 @@ function closeModal() {
 }
 
 
-/* --------------------------------------------------
+/* =====================================================
    ADD EMPLOYEE
--------------------------------------------------- */
+===================================================== */
 
 document
 .getElementById("employeeForm")
@@ -970,46 +871,34 @@ document
     event.preventDefault();
 
 
-    const name =
-        document
-        .getElementById("employeeName")
-        .value
-        .trim();
-
-
-    const position =
-        document
-        .getElementById("employeePosition")
-        .value
-        .trim();
-
-
-    const department =
-        document
-        .getElementById("employeeDepartment")
-        .value;
-
-
-    const email =
-        document
-        .getElementById("employeeEmail")
-        .value
-        .trim();
-
-
     const newEmployee = {
 
         id:
             "EMP" +
-            String(Date.now()).slice(-6),
+            Date.now(),
 
-        name: name,
+        name:
+            document
+            .getElementById("employeeName")
+            .value
+            .trim(),
 
-        position: position,
+        position:
+            document
+            .getElementById("employeePosition")
+            .value
+            .trim(),
 
-        department: department,
+        department:
+            document
+            .getElementById("employeeDepartment")
+            .value,
 
-        email: email,
+        email:
+            document
+            .getElementById("employeeEmail")
+            .value
+            .trim(),
 
         status: "Active"
 
@@ -1025,68 +914,18 @@ document
     );
 
 
-    localStorage.setItem(
-        "employeeDataVersion",
-        DATA_VERSION
-    );
-
-
-    closeModal();
-
-    loadDepartments();
+    updateSummary();
 
     displayEmployees();
+
+    closeModal();
 
 });
 
 
-/* --------------------------------------------------
-   DELETE EMPLOYEE
--------------------------------------------------- */
-
-function deleteEmployee(index) {
-
-    const employee =
-        employees[index];
-
-
-    if (!employee) {
-        return;
-    }
-
-
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete " +
-            employee.name +
-            "?"
-        );
-
-
-    if (!confirmDelete) {
-        return;
-    }
-
-
-    employees.splice(index, 1);
-
-
-    localStorage.setItem(
-        "employeeHubEmployees",
-        JSON.stringify(employees)
-    );
-
-
-    loadDepartments();
-
-    displayEmployees();
-
-}
-
-
-/* --------------------------------------------------
-   HTML SECURITY
--------------------------------------------------- */
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(value) {
 
@@ -1100,4 +939,30 @@ function escapeHTML(value) {
 }
 
 
-/* -------
+/* =====================================================
+   CLOSE MODAL OUTSIDE
+===================================================== */
+
+document
+.getElementById("employeeModal")
+.addEventListener("click", function(event) {
+
+    if (event.target === this) {
+        closeModal();
+    }
+
+});
+
+
+/* =====================================================
+   START PAGE
+===================================================== */
+
+displayEmployees();
+
+updateSummary();
+
+</script>
+
+</body>
+</html>
