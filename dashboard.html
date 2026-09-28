@@ -1,222 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard - EmployeeHub</title>
+    <title>Dashboard | Employee Management System</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f5f7fb;
-            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #263238;
         }
 
-        /* ================= SIDEBAR ================= */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
 
+        /* SIDEBAR */
         .sidebar {
+            width: 235px;
+            background: #17324d;
+            color: white;
+            padding: 25px 15px;
             position: fixed;
             left: 0;
             top: 0;
-            width: 250px;
-            height: 100vh;
-            background: linear-gradient(180deg, #4f46e5, #3730a3);
-            color: white;
-            padding: 25px 18px;
+            bottom: 0;
         }
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 40px;
-            padding-left: 10px;
+        .brand {
+            padding: 0 12px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
         }
 
-        .logo span {
-            color: #c7d2fe;
+        .brand h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #b8c5d1;
         }
 
         .menu {
-            list-style: none;
-        }
-
-        .menu li {
-            margin: 8px 0;
+            margin-top: 25px;
         }
 
         .menu a {
             display: block;
-            padding: 13px 15px;
-            color: white;
+            color: #d7e0e8;
             text-decoration: none;
-            border-radius: 10px;
-            transition: 0.3s;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
         .menu a:hover,
         .menu a.active {
-            background: rgba(255,255,255,0.18);
+            background: #294d6b;
+            color: white;
         }
 
         .logout {
-            margin-top: 30px;
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            right: 15px;
         }
 
-        /* ================= MAIN ================= */
-
+        /* MAIN */
         .main {
-            margin-left: 250px;
-            padding: 35px;
+            margin-left: 235px;
+            width: calc(100% - 235px);
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 30px;
-            margin-bottom: 7px;
-        }
-
-        .header p {
-            color: #6b7280;
-        }
-
-        .date {
+        .topbar {
+            height: 70px;
             background: white;
-            padding: 12px 18px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            font-weight: bold;
+            border-bottom: 1px solid #e1e6eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
         }
 
-        /* ================= STATISTICS ================= */
+        .topbar h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
 
+        .admin {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #e7edf3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #17324d;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .welcome p {
+            margin-top: 7px;
+            color: #687783;
+            font-size: 14px;
+        }
+
+        /* STATISTICS */
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 18px;
+            margin-top: 25px;
         }
 
         .stat-card {
             background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e1e6eb;
+            border-radius: 8px;
+            padding: 20px;
         }
 
-        .stat-icon {
-            font-size: 25px;
-            margin-bottom: 15px;
+        .stat-title {
+            color: #71808c;
+            font-size: 13px;
+            margin-bottom: 10px;
         }
 
-        .stat-card h3 {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 8px;
+        .stat-value {
+            font-size: 27px;
+            font-weight: 600;
+            color: #17324d;
         }
 
-        .stat-card h2 {
-            font-size: 28px;
+        .stat-note {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #7a8791;
         }
 
-        /* ================= CONTENT GRID ================= */
-
-        .content-grid {
+        /* GRID */
+        .dashboard-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 20px;
-            margin-bottom: 25px;
+            margin-top: 20px;
         }
 
         .box {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e1e6eb;
+            border-radius: 8px;
+            padding: 22px;
         }
 
         .box-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .box-header h2 {
-            font-size: 20px;
+            font-size: 17px;
+            font-weight: 600;
         }
 
-        .view-btn {
+        .view-link {
+            color: #315f83;
             text-decoration: none;
-            color: #4f46e5;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
         }
 
-        /* ================= EMPLOYEE ROW ================= */
-
-        .employee-row {
-            display: flex;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #eeeeee;
+        /* ATTENDANCE */
+        .table-wrapper {
+            overflow-x: auto;
         }
 
-        .employee-row:last-child {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 12px;
+            color: #74818b;
+            font-weight: 600;
+            padding: 11px 8px;
+            border-bottom: 1px solid #e4e8ec;
+        }
+
+        td {
+            padding: 13px 8px;
+            font-size: 13px;
+            border-bottom: 1px solid #eef1f3;
+        }
+
+        tr:last-child td {
             border-bottom: none;
         }
 
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #eef2ff;
-            color: #4f46e5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 13px;
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        .employee-info {
-            flex: 1;
+        .present {
+            background: #e7f4ec;
+            color: #287447;
         }
 
-        .employee-name {
-            font-weight: bold;
-            margin-bottom: 4px;
+        .late {
+            background: #fff3df;
+            color: #9a681b;
         }
 
-        .employee-role {
-            color: #6b7280;
-            font-size: 13px;
+        .absent {
+            background: #fbe9e9;
+            color: #a63c3c;
         }
 
-        .employee-dept {
-            color: #4f46e5;
-            font-size: 13px;
-        }
-
-        /* ================= DEPARTMENTS ================= */
-
+        /* DEPARTMENT */
         .department {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .department:last-child {
@@ -227,734 +264,595 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
-        }
-
-        .department-name {
-            font-weight: bold;
-        }
-
-        .department-count {
-            color: #6b7280;
             font-size: 13px;
         }
 
+        .department-name {
+            font-weight: 600;
+        }
+
+        .department-count {
+            color: #6e7b85;
+        }
+
         .progress {
-            width: 100%;
-            height: 9px;
-            background: #e5e7eb;
+            height: 7px;
+            background: #edf0f2;
             border-radius: 10px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
-            background: #4f46e5;
+            background: #315f83;
             border-radius: 10px;
+            width: 0;
         }
 
-        /* ================= ATTENDANCE ================= */
-
-        .attendance-row {
-            display: flex;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #eeeeee;
-        }
-
-        .attendance-row:last-child {
-            border-bottom: none;
-        }
-
-        .attendance-name {
-            flex: 1;
-            font-weight: bold;
-        }
-
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .present {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .late {
-            background: #fef3c7;
-            color: #b45309;
-        }
-
-        /* ================= QUICK ACTIONS ================= */
-
-        .quick-actions {
+        /* RECENT EMPLOYEES */
+        .recent-list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .employee-item {
+            border: 1px solid #e6eaed;
+            border-radius: 6px;
+            padding: 13px;
+        }
+
+        .employee-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .employee-role {
+            margin-top: 4px;
+            font-size: 11px;
+            color: #77838c;
+        }
+
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .action {
+            display: inline-block;
             text-decoration: none;
-            background: #f8fafc;
-            padding: 18px;
-            border-radius: 10px;
-            color: #1f2937;
-            text-align: center;
-            transition: 0.3s;
+            padding: 10px 14px;
+            border: 1px solid #d9e0e5;
+            border-radius: 5px;
+            color: #315f83;
+            background: white;
+            font-size: 13px;
         }
 
         .action:hover {
-            background: #eef2ff;
-            transform: translateY(-2px);
+            background: #f3f6f8;
         }
 
-        .action-icon {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
-
-        .action-text {
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        /* ================= RESPONSIVE ================= */
-
-        @media (max-width: 1100px) {
-
+        /* MOBILE */
+        @media (max-width: 1000px) {
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .content-grid {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
         }
 
         @media (max-width: 750px) {
-
             .sidebar {
-                width: 200px;
+                width: 190px;
             }
 
             .main {
-                margin-left: 200px;
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .content {
                 padding: 20px;
             }
 
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            .recent-list {
+                grid-template-columns: 1fr;
             }
-
         }
 
-        @media (max-width: 550px) {
-
+        @media (max-width: 600px) {
             .sidebar {
-                position: relative;
+                position: static;
                 width: 100%;
-                height: auto;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
             }
 
             .main {
                 margin-left: 0;
-                padding: 20px;
+                width: 100%;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 15px;
             }
 
             .stats {
                 grid-template-columns: 1fr;
             }
 
-            .quick-actions {
-                grid-template-columns: 1fr;
+            .topbar {
+                padding: 0 18px;
             }
 
-            .menu {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
+            .content {
+                padding: 18px;
             }
-
-            .menu li {
-                margin: 0;
-            }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<div class="layout">
 
-    <!-- ================= SIDEBAR ================= -->
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="logo">
-            Employee<span>Hub</span>
+        <div class="brand">
+            <h2>Employee Management</h2>
+            <p>Administration System</p>
         </div>
 
-        <ul class="menu">
+        <nav class="menu">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="employees.html">Employees</a>
+            <a href="attendance.html">Attendance</a>
+            <a href="departments.html">Departments</a>
+            <a href="reports.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </nav>
 
-            <li>
-                <a href="dashboard.html" class="active">
-                    🏠 Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="employees.html">
-                    👥 Employees
-                </a>
-            </li>
-
-            <li>
-                <a href="attendance.html">
-                    📅 Attendance
-                </a>
-            </li>
-
-            <li>
-                <a href="departments.html">
-                    🏢 Departments
-                </a>
-            </li>
-
-            <li>
-                <a href="reports.html">
-                    📊 Reports
-                </a>
-            </li>
-
-            <li>
-                <a href="settings.html">
-                    ⚙️ Settings
-                </a>
-            </li>
-
-            <li class="logout">
-                <a href="index.html">
-                    🚪 Logout
-                </a>
-            </li>
-
-        </ul>
+        <div class="logout">
+            <a href="index.html" class="menu">Sign Out</a>
+        </div>
 
     </aside>
 
-
-    <!-- ================= MAIN ================= -->
-
+    <!-- MAIN -->
     <main class="main">
 
+        <header class="topbar">
+            <h3>Dashboard</h3>
 
-        <!-- HEADER -->
+            <div class="admin">
+                <div class="avatar">A</div>
+                <span>Administrator</span>
+            </div>
+        </header>
 
-        <div class="header">
+        <section class="content">
 
-            <div>
-
-                <h1>
-                    Welcome back, Admin! 👋
-                </h1>
-
-                <p>
-                    Here's what's happening with your employees today.
-                </p>
-
+            <div class="welcome">
+                <h1>Dashboard Overview</h1>
+                <p id="currentDate">Loading date...</p>
             </div>
 
-            <div class="date">
-                📅 September 28, 2026
-            </div>
+            <!-- STATISTICS -->
+            <div class="stats">
 
-        </div>
-
-
-        <!-- ================= STATISTICS ================= -->
-
-        <section class="stats">
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    👥
+                <div class="stat-card">
+                    <div class="stat-title">Total Employees</div>
+                    <div class="stat-value" id="totalEmployees">0</div>
+                    <div class="stat-note">Employees registered</div>
                 </div>
 
-                <h3>
-                    Total Employees
-                </h3>
-
-                <h2>
-                    120
-                </h2>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    ✅
+                <div class="stat-card">
+                    <div class="stat-title">Present Today</div>
+                    <div class="stat-value" id="presentEmployees">0</div>
+                    <div class="stat-note">Employees present</div>
                 </div>
 
-                <h3>
-                    Present Today
-                </h3>
-
-                <h2>
-                    105
-                </h2>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    ❌
+                <div class="stat-card">
+                    <div class="stat-title">Absent Today</div>
+                    <div class="stat-value" id="absentEmployees">0</div>
+                    <div class="stat-note">Employees absent</div>
                 </div>
 
-                <h3>
-                    Absent Today
-                </h3>
-
-                <h2>
-                    15
-                </h2>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    🏢
+                <div class="stat-card">
+                    <div class="stat-title">Departments</div>
+                    <div class="stat-value" id="totalDepartments">0</div>
+                    <div class="stat-note">Active departments</div>
                 </div>
 
-                <h3>
-                    Departments
-                </h3>
-
-                <h2>
-                    8
-                </h2>
-
             </div>
 
+            <!-- ATTENDANCE + DEPARTMENT -->
+            <div class="dashboard-grid">
 
-        </section>
+                <div class="box">
 
+                    <div class="box-header">
+                        <h2>Today's Attendance</h2>
+                        <a href="attendance.html" class="view-link">View all</a>
+                    </div>
 
-        <!-- ================= MAIN CONTENT ================= -->
+                    <div class="table-wrapper">
 
-        <section class="content-grid">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Department</th>
+                                    <th>Check In</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
 
+                            <tbody id="attendanceTable">
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="box">
+
+                    <div class="box-header">
+                        <h2>Departments</h2>
+                        <a href="departments.html" class="view-link">View all</a>
+                    </div>
+
+                    <div id="departmentList">
+                    </div>
+
+                </div>
+
+            </div>
 
             <!-- RECENT EMPLOYEES -->
-
-            <div class="box">
-
-                <div class="box-header">
-
-                    <h2>
-                        Recent Employees
-                    </h2>
-
-                    <a
-                        href="employees.html"
-                        class="view-btn">
-
-                        View All
-
-                    </a>
-
-                </div>
-
-
-                <div class="employee-row">
-
-                    <div class="avatar">
-                        RS
-                    </div>
-
-                    <div class="employee-info">
-
-                        <div class="employee-name">
-                            Rahul Sharma
-                        </div>
-
-                        <div class="employee-role">
-                            Software Developer
-                        </div>
-
-                    </div>
-
-                    <div class="employee-dept">
-                        IT
-                    </div>
-
-                </div>
-
-
-                <div class="employee-row">
-
-                    <div class="avatar">
-                        PP
-                    </div>
-
-                    <div class="employee-info">
-
-                        <div class="employee-name">
-                            Priya Patel
-                        </div>
-
-                        <div class="employee-role">
-                            HR Manager
-                        </div>
-
-                    </div>
-
-                    <div class="employee-dept">
-                        HR
-                    </div>
-
-                </div>
-
-
-                <div class="employee-row">
-
-                    <div class="avatar">
-                        AS
-                    </div>
-
-                    <div class="employee-info">
-
-                        <div class="employee-name">
-                            Amit Shah
-                        </div>
-
-                        <div class="employee-role">
-                            Accountant
-                        </div>
-
-                    </div>
-
-                    <div class="employee-dept">
-                        Finance
-                    </div>
-
-                </div>
-
-
-                <div class="employee-row">
-
-                    <div class="avatar">
-                        NP
-                    </div>
-
-                    <div class="employee-info">
-
-                        <div class="employee-name">
-                            Neha Patel
-                        </div>
-
-                        <div class="employee-role">
-                            UI Designer
-                        </div>
-
-                    </div>
-
-                    <div class="employee-dept">
-                        Design
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- DEPARTMENT DISTRIBUTION -->
-
-            <div class="box">
+            <div class="box" style="margin-top:20px;">
 
                 <div class="box-header">
-
-                    <h2>
-                        Departments
-                    </h2>
-
-                    <a
-                        href="departments.html"
-                        class="view-btn">
-
-                        View All
-
-                    </a>
-
+                    <h2>Recent Employees</h2>
+                    <a href="employees.html" class="view-link">View all</a>
                 </div>
 
-
-                <div class="department">
-
-                    <div class="department-top">
-
-                        <span class="department-name">
-                            IT
-                        </span>
-
-                        <span class="department-count">
-                            42
-                        </span>
-
-                    </div>
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:80%">
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="department">
-
-                    <div class="department-top">
-
-                        <span class="department-name">
-                            Finance
-                        </span>
-
-                        <span class="department-count">
-                            30
-                        </span>
-
-                    </div>
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:60%">
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="department">
-
-                    <div class="department-top">
-
-                        <span class="department-name">
-                            HR
-                        </span>
-
-                        <span class="department-count">
-                            25
-                        </span>
-
-                    </div>
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:50%">
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="department">
-
-                    <div class="department-top">
-
-                        <span class="department-name">
-                            Marketing
-                        </span>
-
-                        <span class="department-count">
-                            23
-                        </span>
-
-                    </div>
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar"
-                            style="width:45%">
-                        </div>
-
-                    </div>
-
+                <div class="recent-list" id="recentEmployees">
                 </div>
 
             </div>
 
+            <!-- QUICK ACTIONS -->
+            <div class="box" style="margin-top:20px;">
 
-        </section>
-
-
-        <!-- ================= ATTENDANCE ================= -->
-
-        <section class="box">
-
-            <div class="box-header">
-
-                <h2>
-                    Today's Attendance
-                </h2>
-
-                <a
-                    href="attendance.html"
-                    class="view-btn">
-
-                    View Attendance
-
-                </a>
-
-            </div>
-
-
-            <div class="attendance-row">
-
-                <div class="attendance-name">
-                    Rahul Sharma
+                <div class="box-header">
+                    <h2>Quick Actions</h2>
                 </div>
 
-                <span class="status present">
-                    Present
-                </span>
+                <div class="quick-actions">
 
-            </div>
-
-
-            <div class="attendance-row">
-
-                <div class="attendance-name">
-                    Priya Patel
-                </div>
-
-                <span class="status present">
-                    Present
-                </span>
-
-            </div>
-
-
-            <div class="attendance-row">
-
-                <div class="attendance-name">
-                    Amit Shah
-                </div>
-
-                <span class="status late">
-                    Late
-                </span>
-
-            </div>
-
-
-            <div class="attendance-row">
-
-                <div class="attendance-name">
-                    Riya Mehta
-                </div>
-
-                <span class="status present">
-                    Present
-                </span>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= QUICK ACTIONS ================= -->
-
-        <section class="box" style="margin-top:25px;">
-
-            <div class="box-header">
-
-                <h2>
-                    Quick Actions
-                </h2>
-
-            </div>
-
-
-            <div class="quick-actions">
-
-
-                <a
-                    href="employees.html"
-                    class="action">
-
-                    <div class="action-icon">
-                        ➕
-                    </div>
-
-                    <div class="action-text">
+                    <a href="employees.html" class="action">
                         Add Employee
+                    </a>
+
+                    <a href="attendance.html" class="action">
+                        Manage Attendance
+                    </a>
+
+                    <a href="reports.html" class="action">
+                        View Reports
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    const defaultEmployees = [
+        {
+            name: "Rahul Sharma",
+            position: "Software Developer",
+            department: "IT",
+            email: "rahul@email.com"
+        },
+        {
+            name: "Priya Patel",
+            position: "HR Manager",
+            department: "HR",
+            email: "priya@email.com"
+        },
+        {
+            name: "Amit Shah",
+            position: "Accountant",
+            department: "Finance",
+            email: "amit@email.com"
+        },
+        {
+            name: "Neha Patel",
+            position: "UI Designer",
+            department: "Design",
+            email: "neha@email.com"
+        },
+        {
+            name: "Riya Mehta",
+            position: "Web Developer",
+            department: "IT",
+            email: "riya@email.com"
+        },
+        {
+            name: "Karan Mehta",
+            position: "Marketing Executive",
+            department: "Marketing",
+            email: "karan@email.com"
+        }
+    ];
+
+
+    let employees =
+        JSON.parse(localStorage.getItem("employeeHubEmployees"))
+        || defaultEmployees;
+
+
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    const attendanceKey =
+        "employeeHubAttendance_" + todayKey;
+
+
+    let attendance =
+        JSON.parse(localStorage.getItem(attendanceKey)) || {};
+
+
+    /* DATE */
+
+    const date = new Date();
+
+    document.getElementById("currentDate").textContent =
+        date.toLocaleDateString("en-IN", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+
+    /* TOTAL EMPLOYEES */
+
+    document.getElementById("totalEmployees").textContent =
+        employees.length;
+
+
+    /* DEPARTMENTS */
+
+    const departments = {};
+
+    employees.forEach(function(employee) {
+
+        const department = employee.department || "Other";
+
+        if (!departments[department]) {
+            departments[department] = 0;
+        }
+
+        departments[department]++;
+
+    });
+
+
+    const departmentNames = Object.keys(departments);
+
+    document.getElementById("totalDepartments").textContent =
+        departmentNames.length;
+
+
+    /* ATTENDANCE */
+
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+
+
+    employees.forEach(function(employee, index) {
+
+        let record = attendance[index];
+
+        if (!record) {
+            record = {
+                status: "Present",
+                checkIn: "09:00 AM",
+                checkOut: "06:00 PM"
+            };
+        }
+
+
+        if (record.status === "Present") {
+            present++;
+        }
+
+        if (record.status === "Absent") {
+            absent++;
+        }
+
+        if (record.status === "Late") {
+            late++;
+        }
+
+    });
+
+
+    document.getElementById("presentEmployees").textContent =
+        present + late;
+
+    document.getElementById("absentEmployees").textContent =
+        absent;
+
+
+    /* ATTENDANCE TABLE */
+
+    const attendanceTable =
+        document.getElementById("attendanceTable");
+
+
+    if (employees.length === 0) {
+
+        attendanceTable.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    No employees found.
+                </td>
+            </tr>
+        `;
+
+    } else {
+
+        employees.slice(0, 6).forEach(function(employee, index) {
+
+            let record = attendance[index];
+
+            if (!record) {
+                record = {
+                    status: "Present",
+                    checkIn: "09:00 AM",
+                    checkOut: "06:00 PM"
+                };
+            }
+
+
+            let statusClass = "present";
+
+            if (record.status === "Absent") {
+                statusClass = "absent";
+            }
+
+            if (record.status === "Late") {
+                statusClass = "late";
+            }
+
+
+            attendanceTable.innerHTML += `
+                <tr>
+                    <td>${employee.name}</td>
+                    <td>${employee.department}</td>
+                    <td>${record.checkIn}</td>
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${record.status}
+                        </span>
+                    </td>
+                </tr>
+            `;
+
+        });
+
+    }
+
+
+    /* DEPARTMENT LIST */
+
+    const departmentList =
+        document.getElementById("departmentList");
+
+
+    const maxEmployees =
+        Math.max(...Object.values(departments), 1);
+
+
+    departmentNames.slice(0, 6).forEach(function(department) {
+
+        const count = departments[department];
+
+        const percentage =
+            Math.round((count / maxEmployees) * 100);
+
+
+        departmentList.innerHTML += `
+            <div class="department">
+
+                <div class="department-top">
+                    <span class="department-name">
+                        ${department}
+                    </span>
+
+                    <span class="department-count">
+                        ${count} employee${count !== 1 ? "s" : ""}
+                    </span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        class="progress-bar"
+                        style="width:${percentage}%">
                     </div>
+                </div>
 
-                </a>
+            </div>
+        `;
 
-
-                <a
-                    href="attendance.html"
-                    class="action">
-
-                    <div class="action-icon">
-                        📅
-                    </div>
-
-                    <div class="action-text">
-                        Attendance
-                    </div>
-
-                </a>
+    });
 
 
-                <a
-                    href="departments.html"
-                    class="action">
+    if (departmentNames.length === 0) {
 
-                    <div class="action-icon">
-                        🏢
-                    </div>
+        departmentList.innerHTML =
+            "<p style='font-size:13px;color:#777;'>No departments found.</p>";
 
-                    <div class="action-text">
-                        Departments
-                    </div>
-
-                </a>
+    }
 
 
-                <a
-                    href="reports.html"
-                    class="action">
+    /* RECENT EMPLOYEES */
 
-                    <div class="action-icon">
+    const recentEmployees =
+        document.getElementById("recentEmployees");
+
+
+    employees.slice(-6).reverse().forEach(function(employee) {
+
+        recentEmployees.innerHTML += `
+            <div class="employee-item">
+
+                <div class="employee-name">
+                    ${employee.name}
+                </div>
+
+                <div class="employee-role">
+                    ${employee.position}
+                    ·
+                    ${employee.department}
+                </div>
+
+            </div>
+        `;
+
+    });
+
+
+    if (employees.length === 0) {
+
+        recentEmployees.innerHTML =
+            "<p style='font-size:13px;color:#777;'>No employees found.</p>";
+
+    }
+
+</script>
+
+</body>
+</html>
